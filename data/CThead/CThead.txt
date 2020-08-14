@@ -1,0 +1,17 @@
+CT Cadaver Head data - A 113-slice MRI data set of a CT study of
+a cadaver head.  Slices are stored consecutively as a 256 x 256 array
+with dimensions of z-113 y-256 x-256 in z-y-x order.  Format is 16-bit
+integers -- two consecutive bytes make up one binary integer.  14,811,136
+bytes total file size.  Data taken on the General Electric CT Scanner and
+provided courtesy of North Carolina Memorial Hospital.
+
+Description:    CT study of a cadaver head
+Dimensions:	113 slices of 256 x 256 pixels,
+		voxel grid is rectangular, and
+		X:Y:Z shape of each voxel is 1:1:2
+Files:		113 binary files, one file per slice
+File format:    16-bit integers (Mac byte ordering), file contains no header
+Data source:    acquired on a General Electric CT Scanner and provided
+                courtesy of North Carolina Memorial Hospital
+
+from http://graphics.stanford.edu/data/voldata/

@@ -1,0 +1,7 @@
+# Helpful scripts
+
+ * run.sh - runs the simulation
+ * run_python.sh - runs the python-based simulation
+ * configure_build - configures and builds the Fortran and extension_module
+ * build_python_module - build the f2py module
+ * particle_player.py - GUI application for visualising particle traces.

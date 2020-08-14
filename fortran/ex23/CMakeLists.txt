@@ -1,0 +1,1 @@
+add_executable(ex23 ex23.f90 utils.f90) 

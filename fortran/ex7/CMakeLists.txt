@@ -1,0 +1,1 @@
+add_executable(ex7 ex7.f90)

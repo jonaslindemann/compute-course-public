@@ -1,0 +1,1 @@
+add_executable(ex12 ex12.f90 sub.f90) 

@@ -1,0 +1,1 @@
+add_executable(ex11 ex11.f90)

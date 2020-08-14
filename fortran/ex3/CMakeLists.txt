@@ -1,0 +1,1 @@
+add_executable(ex3 ex3.f90)

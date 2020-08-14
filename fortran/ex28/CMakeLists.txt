@@ -1,0 +1,1 @@
+add_executable(ex28 ex28.f90 utils.f90) 

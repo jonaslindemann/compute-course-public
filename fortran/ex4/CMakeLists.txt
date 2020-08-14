@@ -1,0 +1,1 @@
+add_executable(ex4 ex4.f90)

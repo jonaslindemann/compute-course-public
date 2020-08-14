@@ -1,0 +1,1 @@
+add_executable(ex21 ex21.f90) 

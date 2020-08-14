@@ -1,0 +1,1 @@
+add_executable(ex14 ex14.f90 mymod.f90) 

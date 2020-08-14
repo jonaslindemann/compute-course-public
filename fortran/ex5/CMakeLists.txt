@@ -1,0 +1,1 @@
+add_executable(ex5 ex5.f90)

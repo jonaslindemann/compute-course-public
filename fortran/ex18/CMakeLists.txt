@@ -1,0 +1,1 @@
+add_executable(ex18 ex18.f90) 
