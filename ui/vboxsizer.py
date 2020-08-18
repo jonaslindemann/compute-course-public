@@ -9,37 +9,30 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
-        
-        self.ui = QMainWindow()
-        self.ui.resize(200,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.mainWidget = QWidget(self.ui)
+        super().__init__()
+
+        self.resize(200,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
         self.button1 = QPushButton("Button1")
         self.button2 = QPushButton("Button2")
         self.button3 = QPushButton("Button3")
         self.button4 = QPushButton("Button4")
         
-        self.vbox = QVBoxLayout(self.ui)
+        self.vbox = QVBoxLayout(self)
         self.vbox.addWidget(self.button1)
         self.vbox.addWidget(self.button2)
         self.vbox.addWidget(self.button3)
         self.vbox.addWidget(self.button4)
         
-        self.mainWidget.setLayout(self.vbox)
-        self.ui.setCentralWidget(self.mainWidget)
+        self.setLayout(self.vbox)
         
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     

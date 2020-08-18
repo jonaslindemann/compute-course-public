@@ -9,50 +9,48 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
-        
-        self.ui = QMainWindow()
-        self.ui.resize(200,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.mainWidget = QWidget(self.ui)
-        
-        self.button1 = QPushButton("Button1")
-        self.button2 = QPushButton("Button2")
-        self.button3 = QPushButton("Button3")
-        self.button4 = QPushButton("Button4")
-        
-        self.button5 = QPushButton("Button5")
-        self.button6 = QPushButton("Button6")
-        self.button7 = QPushButton("Button7")
-        self.button8 = QPushButton("Button8")
+        super().__init__()
 
-        self.vbox = QVBoxLayout(self.ui)
+        self.init_gui()
+
+    def init_gui(self):
+
+        self.resize(200,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
+        
+        self.button1 = QPushButton('Button1')
+        self.button2 = QPushButton('Button2')
+        self.button3 = QPushButton('Button3')
+        self.button4 = QPushButton('Button4')
+        
+        self.button5 = QPushButton('Button5')
+        self.button6 = QPushButton('Button6')
+        self.button7 = QPushButton('Button7')
+        self.button8 = QPushButton('Button8')
+
+        self.vbox = QVBoxLayout(self)
         self.vbox.addWidget(self.button1)
         self.vbox.addWidget(self.button2)
         self.vbox.addWidget(self.button3)
         self.vbox.addWidget(self.button4)
         
-        self.hbox = QHBoxLayout(self.ui)
+        self.hbox = QHBoxLayout(self)
         self.hbox.addWidget(self.button5)
         self.hbox.addWidget(self.button6)
         self.hbox.addWidget(self.button7)
         self.hbox.addWidget(self.button8)
-        
+
+        self.vbox.addStretch(1)
         self.vbox.addLayout(self.hbox)
-        
-        self.mainWidget.setLayout(self.vbox)
-        self.ui.setCentralWidget(self.mainWidget)
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
+
+        self.setLayout(self.vbox)
+
 
 if __name__ == '__main__':
     

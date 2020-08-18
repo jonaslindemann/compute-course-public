@@ -9,37 +9,68 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
-        """Class constructor"""
-        
-        self.ui = QMainWindow()
-        self.ui.resize(200,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.mainWidget = QWidget(self.ui)
+        """MyWidget constructor"""
+        super().__init__()
+
+        self.init_gui()
+
+    def init_gui(self):
+        """Initiera gränssnitt"""
+
+        self.resize(200,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
         self.button1 = QPushButton("Button1")
         self.button2 = QPushButton("Button2")
         self.button3 = QPushButton("Button3")
         self.button4 = QPushButton("Button4")
-        
-        self.grid = QGridLayout(self.mainWidget)
+        self.button5 = QPushButton("Button5")
+        self.button6 = QPushButton("Button6")
+        self.button7 = QPushButton("Button7")
+        self.button8 = QPushButton("Button8")
+        self.button9 = QPushButton("Button9")
+
+        self.button1.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button3.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button4.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button5.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button6.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button7.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button8.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.button9.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        self.grid = QGridLayout(self)
         self.grid.addWidget(self.button1, 0, 0)
-        self.grid.addWidget(self.button2, 0, 2)
-        self.grid.addWidget(self.button3, 1, 0)
-        self.grid.addWidget(self.button4, 1, 1)
+        self.grid.addWidget(self.button2, 0, 1)
+        self.grid.addWidget(self.button3, 0, 2)
+        self.grid.addWidget(self.button4, 1, 0)
+        self.grid.addWidget(self.button5, 1, 1)
+        self.grid.addWidget(self.button6, 1, 2)
+        self.grid.addWidget(self.button7, 2, 0)
+        self.grid.addWidget(self.button8, 2, 1)
+        self.grid.addWidget(self.button9, 2, 2)
+
+        self.grid.setContentsMargins(20, 40, 20, 40)
+
+        self.grid.setHorizontalSpacing(20)
+        self.grid.setVerticalSpacing(20)
+
+        self.grid.setColumnStretch(0, 1)
+        self.grid.setColumnStretch(1, 4)
+        self.grid.setColumnStretch(2, 1)
+
+        self.grid.setRowStretch(0, 1)
+        self.grid.setRowStretch(1, 4)
+        self.grid.setRowStretch(2, 1)
+
+        self.setLayout(self.grid)
         
-        self.mainWidget.setLayout(self.grid)
-        self.ui.setCentralWidget(self.mainWidget)
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     

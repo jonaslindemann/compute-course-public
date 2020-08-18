@@ -9,36 +9,32 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QMainWindow):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
+        super().__init__()
         
-        self.ui = QMainWindow()
-        self.ui.resize(200,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
+        self.resize(200,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
         # Define action
         
-        self.actionMyAction = QAction("MyAction", self.ui)
-        self.actionMyAction.setShortcut("Ctrl+T") # <--- CHECK
-        self.actionMyAction.triggered.connect(self.onMyAction)
+        self.my_action = QAction("MyAction", self)
+        self.my_action.setShortcut("Ctrl+T") # <--- CHECK
+        self.my_action.triggered.connect(self.on_my_action)
         
         # Connect action to menu
 
-        self.fileMenu = self.ui.menuBar().addMenu("File")
-        self.fileMenu.addAction(self.actionMyAction)
+        self.fileMenu = self.menuBar().addMenu("File")
+        self.fileMenu.addAction(self.my_action)
         
-    def onMyAction(self):
+    def on_my_action(self):
         """Method for handling MyAction"""
-        QMessageBox.information(self.ui, "Meddelande", "Ouch!")
+        QMessageBox.information(self, "Meddelande", "Ouch!")
         
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     

@@ -9,45 +9,42 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+
+class MyWindow(QMainWindow):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
-        
-        self.ui = QMainWindow()
-        self.ui.resize(200,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
+        super().__init__()
+
+        self.resize(200, 200)
+        self.move(50, 50)
+        self.setWindowTitle("MyWindow")
+
         # Define action
-        
-        self.actionDialog = QAction("Open dialog", self.ui)
-        self.actionDialog.setShortcut("Ctrl-T")
-        self.actionDialog.triggered.connect(self.onDialog)
-        
+
+        self.action_dialog = QAction("Open dialog", self)
+        self.action_dialog.setShortcut("Ctrl-T")
+        self.action_dialog.triggered.connect(self.on_dialog)
+
         # Connect action to menu
 
-        self.fileMenu = self.ui.menuBar().addMenu("File")
-        self.fileMenu.addAction(self.actionDialog)
-                
-    def onDialog(self):
+        self.file_menu = self.menuBar().addMenu("File")
+        self.file_menu.addAction(self.action_dialog)
+
+    def on_dialog(self):
+        """Method for handling MyAction"""
         filename, _ = QFileDialog.getSaveFileName(
-            self.ui, 'Save file', '', 'Flow input files (*.inp)')        
-            
-        if filename!="":
-            QMessageBox.information(self.ui, "Val", filename)
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
+            self, 'Save file', '', 'Flow input files (*.inp)')
+
+        if filename != "":
+            QMessageBox.information(self, "Val", filename)
+
 
 if __name__ == '__main__':
-    
     app = QApplication(sys.argv)
-    
+
     window = MyWindow()
     window.show()
-    
+
     sys.exit(app.exec_())

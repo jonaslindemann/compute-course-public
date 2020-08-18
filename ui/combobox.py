@@ -9,33 +9,49 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
-    """Main Window class for our application"""
+class MyWindow(QWidget):
+    """Huvudklass för vårt fönster"""
 
     def __init__(self):
-        """Class constructor"""
+        """Klass constructor"""
+        super().__init__()
+
+        self.init_gui()
+
+    def init_gui(self):
+
+        # Konfigurera fönster
+
+        self.resize(400, 200)
+        self.move(50, 50)
+        self.setWindowTitle("MyWindow")
+
+        # Skapa combobox-kontroll
+
+        self.combo_box = QComboBox(self)
+        self.combo_box.move(20, 20)
+
+        # Lägg till alternativ
+
+        self.combo_box.addItem("Alternativ 1")
+        self.combo_box.addItem("Alternativ 2")
+        self.combo_box.addItem("Alternativ 3")
+        self.combo_box.addItem("Alternativ 4")
+
+        # Ange standardval
+
+        self.combo_box.setCurrentIndex(3)
+
+        # Koppla händelsemetod till signal
+
+        self.combo_box.currentIndexChanged.connect(self.on_current_index_changed)
+
+    def on_current_index_changed(self, index):
+        """Hantera signalen currentIndexChanged"""
+
+        QMessageBox.information(self, "Meddelande", "Du valde: " + str(index))
+        QMessageBox.information(self, "Meddelande", "Texten var: " + self.combo_box.currentText())
         
-        self.ui = QMainWindow()
-        self.ui.resize(400,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.comboBox = QComboBox(self.ui)
-        self.comboBox.move(20,20)
-        self.comboBox.addItem("Alt 1")
-        self.comboBox.addItem("Alt 2")
-        self.comboBox.addItem("Alt 3")
-        self.comboBox.addItem("Alt 4")
-        self.comboBox.currentIndexChanged.connect(self.onCurrentIndexChanged)
-        
-    def onCurrentIndexChanged(self, index):
-        """Respond to button click"""
-        QMessageBox.information(self.ui, "Meddelande", "Du valde: " + str(index))
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     

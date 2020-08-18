@@ -9,32 +9,26 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
+        super().__init__()
+
+        self.resize(400,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
-        self.ui = QMainWindow()
-        self.ui.resize(400,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.button = QPushButton("Tryck", self.ui)
+        self.button = QPushButton("Tryck", self)
         self.button.move(50,50)
         self.button.resize(100,50)
-        self.button.clicked.connect(self.onButtonClicked)
-        
-    def onButtonClicked(self):
+        self.button.clicked.connect(self.on_button_clicked)
+
+    def on_button_clicked(self):
         """Respond to button click"""
-        QMessageBox.information(self.ui, "Meddelande", "Ouch!")
+        QMessageBox.information(self, "Meddelande", "Ouch!")
             
-        
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     

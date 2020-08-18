@@ -1,41 +1,38 @@
 # -*- coding: utf-8 -*-
 """
+QCheckBox Example
 Created on Mon Apr 11 09:44:29 2016
 
-@author: lindemann
+@author: Jonas Lindemann
 """
 
 import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
-        
-        self.ui = QMainWindow()
-        self.ui.resize(400,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-        self.checkBox = QCheckBox("Extra allt", self.ui)
-        self.checkBox.move(20,20)
-        self.checkBox.setChecked(True)
-        self.checkBox.stateChanged.connect(self.onStateChange)
-        
-    def onStateChange(self):
+        super().__init__()
+
+        self.resize(400,100)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
+
+        self.check_box = QCheckBox("Extra allt", self)
+        self.check_box.move(20,20)
+        self.check_box.setChecked(True)
+        self.check_box.stateChanged.connect(self.on_state_change)
+
+
+    def on_state_change(self):
         """Respond to button click"""
-        if self.checkBox.checkState():
-            QMessageBox.information(self.ui, "Meddelande", "Extra allt")
+        if self.check_box.checkState():
+            QMessageBox.information(self, "Meddelande", "Extra allt")
         else:
-            QMessageBox.information(self.ui, "Meddelande", "Inget")
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
+            QMessageBox.information(self, "Meddelande", "Inget")
 
 if __name__ == '__main__':
     

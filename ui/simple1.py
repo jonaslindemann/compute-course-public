@@ -9,22 +9,17 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QMainWindow):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
+        super().__init__()
         
-        self.ui = QMainWindow()
-        self.ui.resize(640,480)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
+        self.resize(640,480)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
-
 if __name__ == '__main__':
     
     app = QApplication(sys.argv)

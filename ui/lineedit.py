@@ -9,34 +9,41 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-class MyWindow:
+class MyWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
+        super().__init__()
+
+        self.init_gui()
+
+    def init_gui(self):
+        """Initiera gränssnitt"""
+
+        # Konfigurera fönster
         
-        self.ui = QMainWindow()
-        self.ui.resize(400,200)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
+        self.resize(400,200)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
+
+        # Skapa knapp
         
-        self.button = QPushButton("Tryck", self.ui)
+        self.button = QPushButton("Tryck", self)
         self.button.move(50,50)
         self.button.resize(100,50)
-        self.button.clicked.connect(self.onButtonClicked)
+        self.button.clicked.connect(self.on_button_clicked)
 
-        
-        self.lineEdit = QLineEdit(self.ui)
+        # Skapa textkontroll
+
+        self.lineEdit = QLineEdit(self)
         self.lineEdit.move(20,20)
         self.lineEdit.setText("Text")
         
-    def onButtonClicked(self):
-        QMessageBox.information(self.ui, "Text", self.lineEdit.text())
+    def on_button_clicked(self):
+        """Händelsemetod för signalen clicked"""
+        QMessageBox.information(self, "Text", self.lineEdit.text())
         
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     
