@@ -7,7 +7,7 @@ Created on Mon Apr 11 09:44:29 2016
 
 import sys
 
-from PyQt5.QtWidgets import QWidget, QListWidget, QMessageBox, QApplication
+from qtpy.QtWidgets import QWidget, QListWidget, QMessageBox, QApplication
 
 class MyWindow(QWidget):
     """Main Window class for our application"""

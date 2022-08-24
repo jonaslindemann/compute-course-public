@@ -2,8 +2,8 @@
 
 import sys
 
-from PyQt5.QtWidgets import *
-from PyQt5 import uic
+from qtpy.QtWidgets import *
+from qtpy import uic
 
 class MainWindow:
     """Main window class for the Flow application"""

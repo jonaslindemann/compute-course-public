@@ -2,7 +2,7 @@
 
 import sys
 
-from PyQt5.QtWidgets import *
+from qtpy.QtWidgets import *
 
 from form_window import *
 

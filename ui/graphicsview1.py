@@ -8,10 +8,10 @@ Created on Sun Nov 26 17:10:06 2017
 
 import sys
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5 import uic
+from qtpy.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy import uic
 from random import *
 
 class MainWindow(QMainWindow):

@@ -2,7 +2,7 @@
 
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget
+from qtpy.QtWidgets import QApplication, QWidget
 
 class MyWindow(QWidget):
     def __init__(self):

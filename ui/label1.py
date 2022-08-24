@@ -2,8 +2,8 @@
 
 import sys
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from qtpy.QtWidgets import *
+from qtpy.QtGui import *
 
 class MyWindow(QWidget):
     """Huvudklass för fönstret"""

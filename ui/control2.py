@@ -2,8 +2,8 @@
 
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
-from PyQt5.QtCore import QCoreApplication
+from qtpy.QtWidgets import QApplication, QWidget, QPushButton
+from qtpy.QtCore import QCoreApplication
 
 class MyWindow(QWidget):
     def __init__(self):

@@ -10,7 +10,7 @@ import sys
 
 from math import *
 
-from PyQt5.QtWidgets import *
+from qtpy.QtWidgets import *
 
 class MyWindow(QWidget):
     """Main Window class for our application"""
