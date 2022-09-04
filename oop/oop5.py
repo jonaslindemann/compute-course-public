@@ -4,30 +4,31 @@ import random
 
 class Point:
     def __init__(self, x=0.0, y=0.0):
-        self._x = x
-        self._y = y
+        self.__x = x
+        self.__y = y
 
-    def set_x(self, x):
-        self._x = x
+    @property
+    def x(self):
+        return self.__x
 
-    def set_y(self, y):
-        self._y = y
+    @x.setter
+    def x(self, x):
+        self.__x = x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @y.setter
+    def y(self, y):
+        self.__y = y
 
     def set(self, x, y):
-        self._x = x
-        self._y = y
-
-    def get_x(self):
-        return self._x
-
-    def get_y(self):
-        return self._y
+        self.__x = x
+        self.__y = y
 
     def __str__(self):
-        return "Point("+str(self._x)+", "+str(self._y)+")"
-
-    x = property(get_x, set_x)
-    y = property(get_y, set_y)
+        return "Point("+str(self.__x)+", "+str(self.__y)+")"
 
 points = []
 

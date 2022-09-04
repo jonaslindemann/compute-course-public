@@ -1,9 +1,52 @@
 # -*- coding: utf-8 -*-
 
+from py5 import Sketch
 import random, math
 
-class Point:
+class DrawBase:
+    def __init__(self):
+        self.__stroke_color = [0, 0, 0]
+        self.__fill_color = [255, 255, 255]
+        self.__stroke_width = 1
+
+    @property
+    def stroke_color(self):
+        return self.__stroke_color
+
+    @stroke_color.setter
+    def stroke_color(self, color):
+        self.__stroke_color = color
+
+    @property
+    def fill_color(self):
+        return self.__fill_color
+        
+    @fill_color.setter
+    def fill_color(self, color):
+        self.__fill_color = color
+
+    @property
+    def stroke_width(self):
+        return self.__stroke_width
+
+    @stroke_width.setter
+    def stroke_width(self, width):
+        self.__stroke_width = width
+
+    def do_draw(self):
+        pass
+
+    def draw(self):
+        p5sketch.stroke(self.__stroke_color[0], self.__stroke_color[1], self.__stroke_color[2])
+        p5sketch.fill(self.__fill_color[0], self.__fill_color[1], self.__fill_color[2])
+        p5sketch.stroke_weight(self.__stroke_width)
+
+        self.do_draw()
+        
+
+class Point(DrawBase):
     def __init__(self, x=0.0, y=0.0):
+        super().__init__()
         self.__x = x
         self.__y = y
 
@@ -41,6 +84,10 @@ class Point:
     def area(self):
         return 0.0
 
+    def do_draw(self):
+        p5sketch.point(self.x, self.y)
+
+
 class Circle(Point):
     def __init__(self, x=0.0, y=0.0, r=1.0):
         super().__init__(x, y)
@@ -64,10 +111,20 @@ class Circle(Point):
     def __str__(self):
         return "Circle("+str(self.x)+", "+str(self.y)+", "+str(self.__r)+")"
 
-class Line:
-    def __init__(self):
+    def do_draw(self):
+        p5sketch.ellipse(self.x, self.y, self.r, self.r)
+
+
+class Line(DrawBase):
+    def __init__(self, x0=0.0, y0=0.0, x1=1.0, y1=1.0):
+        super().__init__()
         self.__p0 = Point()
         self.__p1 = Point()
+
+        self.p0.x = x0
+        self.p0.y = y0
+        self.p1.x = x1
+        self.p1.y = y1
         
     @property
     def p0(self):
@@ -99,26 +156,28 @@ class Line:
         return_string += "Length: \n\t"
         return_string += str(self.length)+"\n"
         return return_string
-        
-   
-line = Line()
 
-line.p0.x = 0.0
-line.p0.y = 2.0
-line.p1.x = 3.0
-line.p1.y = 4.0
+    def do_draw(self):
+        p5sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
 
-print(line)
+class OopSketch(Sketch):
 
-line.p0.move(-1.0, -1.0)
+    def settings(self):
+        self.size(600, 600)
 
-print(line)
+    def setup(self):
+        self.shapes = []
 
-p3 = Point(5.0, 5.0)
-p4 = Point(10.0, 10.0)
+        self.shapes.append(Point(50.0, 50.0))
+        self.shapes.append(Circle(100.0, 50.0, 50.0))
+        self.shapes.append(Line(50.0, 50.0, 200.0, 200.0))
 
-line.p0 = p3
-line.p1 = p4
+    def draw(self):
+        for shape in self.shapes:
+            shape.draw()
 
-print(line)
+if __name__ == "__main__":
 
+    global p5sketch
+    p5sketch = OopSketch()
+    p5sketch.run_sketch()        

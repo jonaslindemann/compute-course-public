@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from py5 import Sketch
 import random, math
 
 class Point:
@@ -41,6 +42,12 @@ class Point:
     def area(self):
         return 0.0
 
+    def draw(self):
+        p5sketch.stroke(0)
+        p5sketch.stroke_weight(4)
+        p5sketch.point(self.x, self.y)
+
+
 class Circle(Point):
     def __init__(self, x=0.0, y=0.0, r=1.0):
         super().__init__(x, y)
@@ -64,10 +71,21 @@ class Circle(Point):
     def __str__(self):
         return "Circle("+str(self.x)+", "+str(self.y)+", "+str(self.__r)+")"
 
+    def draw(self):
+        p5sketch.stroke(0)
+        p5sketch.stroke_weight(1)
+        p5sketch.ellipse(self.x, self.y, self.r, self.r)
+
+
 class Line:
-    def __init__(self):
+    def __init__(self, x0=0.0, y0=0.0, x1=1.0, y1=1.0):
         self.__p0 = Point()
         self.__p1 = Point()
+
+        self.p0.x = x0
+        self.p0.y = y0
+        self.p1.x = x1
+        self.p1.y = y1
         
     @property
     def p0(self):
@@ -99,26 +117,28 @@ class Line:
         return_string += "Length: \n\t"
         return_string += str(self.length)+"\n"
         return return_string
-        
-   
-line = Line()
 
-line.p0.x = 0.0
-line.p0.y = 2.0
-line.p1.x = 3.0
-line.p1.y = 4.0
+    def draw(self):
+        p5sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
 
-print(line)
+class OopSketch(Sketch):
 
-line.p0.move(-1.0, -1.0)
+    def settings(self):
+        self.size(600, 600)
 
-print(line)
+    def setup(self):
+        self.shapes = []
 
-p3 = Point(5.0, 5.0)
-p4 = Point(10.0, 10.0)
+        self.shapes.append(Point(50.0, 50.0))
+        self.shapes.append(Circle(100.0, 50.0, 50.0))
+        self.shapes.append(Line(50.0, 50.0, 200.0, 200.0))
 
-line.p0 = p3
-line.p1 = p4
+    def draw(self):
+        for shape in self.shapes:
+            shape.draw()
 
-print(line)
+if __name__ == "__main__":
 
+    global p5sketch
+    p5sketch = OopSketch()
+    p5sketch.run_sketch()        
