@@ -3,6 +3,7 @@
 import sys
 
 from qtpy.QtWidgets import *
+from qtpy.QtCore import *
 
 class MyWindow(QWidget):
     def __init__(self):
@@ -53,8 +54,11 @@ class MyWindow(QWidget):
 
 if __name__ == "__main__":
 
-    app = QApplication(sys.argv)
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
 
+    app = QApplication(sys.argv)
+    
     # Skapa vårt MyWindow objekt
 
     window = MyWindow()

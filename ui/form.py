@@ -3,6 +3,8 @@
 import sys
 
 from qtpy.QtWidgets import *
+from qtpy.QtCore import *
+
 from qtpy import uic
 
 class MainWindow(QWidget):
@@ -22,10 +24,13 @@ class MainWindow(QWidget):
 
         uic.loadUi("form.ui", self)
 
-        self.push_button.setText("Press me!")
+        self.push_button_1.setText("Press me!")
 
 
 if __name__ == '__main__':
+
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons    
 
     app = QApplication(sys.argv)
 

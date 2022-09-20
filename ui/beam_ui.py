@@ -9,6 +9,7 @@ import sys
 
 from qtpy.QtWidgets import *
 from qtpy.QtGui import *
+from qtpy.QtCore import *
 
 import beam_model as bm
 
@@ -138,6 +139,10 @@ class BeamWindow(QWidget):
 
 
 if __name__ == '__main__':
+
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)     
+
     app = QApplication(sys.argv)
 
     window = BeamWindow()

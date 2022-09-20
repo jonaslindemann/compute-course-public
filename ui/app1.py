@@ -73,6 +73,9 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)     
+
     # Create window
 
     window = MyWindow()

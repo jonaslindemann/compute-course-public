@@ -20,11 +20,15 @@ class MyWindow(QMainWindow):
         self.resize(200,100)
         self.move(50,50)
         self.setWindowTitle("MyWindow")
-        self.setWindowState(Qt.WindowMaximized)
+        #self.setWindowState(Qt.WindowMaximized)
+        self.setWindowState(Qt.WindowFullScreen)
         
 
 if __name__ == '__main__':
     
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+
     app = QApplication(sys.argv)
     
     window = MyWindow()

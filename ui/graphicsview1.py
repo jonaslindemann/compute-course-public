@@ -52,11 +52,10 @@ class MainWindow(QMainWindow):
         self.graphicsView.fitInView(self.scene.sceneRect())
         self.graphicsView.centerOn(0,0)
 
-
-                    
-
-
 if __name__ == '__main__':
+
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
 
     app = QApplication(sys.argv)
 

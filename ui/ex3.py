@@ -3,7 +3,7 @@
 import sys
 
 from qtpy.QtWidgets import QApplication, QWidget, QPushButton
-from qtpy.QtCore import QCoreApplication
+from qtpy.QtCore import *
 
 class MyWindow(QWidget):
     def __init__(self):
@@ -42,6 +42,9 @@ class MyWindow(QWidget):
         print("Hello")
 
 if __name__ == "__main__":
+
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
 
     app = QApplication(sys.argv)
 

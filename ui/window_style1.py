@@ -10,26 +10,24 @@ import sys
 from qtpy.QtWidgets import *
 from qtpy.QtCore import *
 
-class MyWindow:
+class MyWindow(QMainWindow):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
+        #super().__init__(None, Qt.Window )        
+        #super().__init__(None, Qt.Window | Qt.Dialog)        
+        super().__init__(None, Qt.Window | Qt.Tool)        
+        self.resize(600,600)
+        self.move(50,50)
+        self.setWindowTitle("MyWindow")
         
-        #self.ui = QtGui.QMainWindow(None, QtCore.Qt.Window)
-        #self.ui = QMainWindow(None, Qt.Window | Qt.Dialog)
-        #self.ui = QMainWindow(None, Qt.Window | Qt.Tool)
-        self.ui.resize(200,100)
-        self.ui.move(50,50)
-        self.ui.setWindowTitle("MyWindow")
-        
-    def show(self):
-        """Show and raise window"""
-        self.ui.show()
-        self.ui.raise_()
 
 if __name__ == '__main__':
     
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+
     app = QApplication(sys.argv)
     
     window = MyWindow()
