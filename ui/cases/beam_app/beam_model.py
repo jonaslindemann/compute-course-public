@@ -223,7 +223,7 @@ if __name__ == "__main__":
     beam = BeamModel()
     beam.lengths = [2.0, 2.0, 3.0]
     beam.segments = [100, 100, 100]
-    beam.supports = [Beam.FIXED_XY, Beam.FIXED_Y, Beam.FIXED_Y, Beam.FIXED_XYR]
+    beam.supports = [BeamModel.FIXED_XY, BeamModel.FIXED_Y, BeamModel.FIXED_Y, BeamModel.FIXED_XYR]
     beam.loads = [-1.0e3, -1.0e3, -1.0e3]
     beam.solve()
 
