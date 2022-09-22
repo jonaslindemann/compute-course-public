@@ -16,6 +16,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+
 import numpy as np
 
 import smhi
@@ -75,15 +77,19 @@ class WeatherWindow(QMainWindow):
         
     def request_forecast(self):
         self.params = self.smhi.extract_param_names()
-        self.values = self.smhi.extract_param(self.current_param)
+        self.date_times, self.values = self.smhi.extract_param(self.current_param)
         
     def plot(self):
         
         self.figure.clear()
         axes = self.figure.gca()
 
-        axes.plot_date(self.values[:, 0], self.values[:, 1], xdate=True, fmt="r-")
+        axes.plot_date(self.date_times, self.values, xdate=True, fmt="r-")
         plt.title(self.current_param+" ("+self.params[self.current_param]+")")
+
+        myLocator = mticker.MultipleLocator(8)
+        axes.xaxis.set_major_locator(myLocator)
+        plt.gcf().autofmt_xdate()
 
         self.figure.canvas.draw()
         self.figure.canvas.flush_events()                

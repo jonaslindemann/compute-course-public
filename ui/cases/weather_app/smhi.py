@@ -10,6 +10,9 @@ import requests
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import dates as mpl_dates
+import matplotlib.ticker as mticker
+
 
 class SMHI():
     """Class for extracting a weather forecast"""
@@ -52,24 +55,36 @@ class SMHI():
     def extract_param(self, name):
         """Extract specific values from data"""
 
+        date_times = []
         values = []
 
         for item in self.forecast["timeSeries"]:
             params = item["parameters"]
             for param in params:
                 if param["name"] == name:
-                    values.append([item["validTime"], param["values"][0]])
+                    values.append(float(param["values"][0]))
+                    date_times.append(item["validTime"])
 
-        return np.asanyarray(values)
+        return date_times, values
     
 if __name__ == '__main__':
 
     smhi = SMHI()
     params = smhi.extract_param_names()
-    values = smhi.extract_param("r")
+    date_times, values = smhi.extract_param("r")
 
     print(params)
+    print(date_times)
     print(values)
 
-    plt.plot_date(values[:, 0], values[:, 1], xdate=True, fmt="r-")
-    
+    plt.plot_date(date_times, values, xdate=True, fmt="r-")
+    ax = plt.gca()
+
+    myLocator = mticker.MultipleLocator(8)
+    ax.xaxis.set_major_locator(myLocator)
+    plt.gcf().autofmt_xdate()
+    #date_format = mpl_dates.DateFormatter('%Y-%m')
+    #plt.gca().xaxis.set_major_formatter(date_format)
+
+    #plt.tick_params(axis='x', which='major', labelsize = 6)
+    plt.show()
