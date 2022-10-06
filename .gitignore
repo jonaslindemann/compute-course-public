@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+build-*
+f2py/beam/.vscode/settings.json
+*.dll
