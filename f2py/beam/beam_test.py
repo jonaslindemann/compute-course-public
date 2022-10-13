@@ -7,11 +7,10 @@ Fritt upplagd balk
 
 import os
 
-os.add_dll_directory("C:/Users/Miniconda3/envs/qt")
-os.add_dll_directory("C:/Users/Miniconda3/envs/qt")
+os.add_dll_directory(os.path.join(os.getcwd(), "./beam/.libs"))
 
-from beam_model import *
+from beam import *
 
 if __name__ == "__main__":
 
-    print(beam_model.__doc__)
+    print(beam_model.moments.__doc__)

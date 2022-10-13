@@ -56,6 +56,47 @@ subroutine get_params(a_val, b_val, P_val, E_val, I_val)
     I_val = I
 
 end subroutine get_params
+
+subroutine deflections(x, result)
+
+    real(rk), intent(in) :: x
+    real(rk), intent(out) :: result
     
+    if (x < a) then 
+        result = (P*b*L/(6*E*I))*((1-b**2/L**2)*x - x**3/L**2)
+    else
+        result = (P*a/(6*E*I))*(-a**2+(2*L+a**2/L)*x - 3*x**2+x**3/L)
+    end if
+
+end subroutine 
+
+subroutine shear_forces(x, result)
+    
+    real(rk), intent(in) :: x
+    real(rk), intent(out) :: result
+
+    if (x < a) then 
+        result = P*b/L
+    else
+        result = -P*a/L
+    end if
+
+end subroutine 
+
+subroutine moments(x, result)
+
+    real(rk), intent(in) :: x
+    real(rk), intent(out) :: result
+
+    print*, P, b, x, L
+
+    if (x < a) then 
+        result = -P*b*x/L
+    else
+        result = -P*a*(L-x)/L
+    end if
+
+end subroutine
+
 end module beam_model
 

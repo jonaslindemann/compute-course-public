@@ -5,6 +5,11 @@ Fritt upplagd balk
 @author: Jonas Lindemann
 """
 
+import os
+
+os.add_dll_directory(os.path.join(os.getcwd(), "./beam/.libs"))
+
+from beam import *
 
 class BeamSimplySupported:
     """Klass för att beräkna fritt upplagd balk"""
@@ -20,46 +25,33 @@ class BeamSimplySupported:
         self.__E = 2.1e9
         self.__I = 0.1*0.1**4/12.0
 
+        self.update_params()
+
+    def update_params(self):
+        beam_model.a = self.__a
+        beam_model.b = self.__b
+        beam_model.P = self.__P
+        beam_model.E = self.__E
+        beam_model.I = self.__I
+        beam_model.L = self.__a + self.__b
+
     def v(self, x):
         """Beräkna deformationen vid x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
-        E = self.__E
-        I = self.__I
-
-        if x < a:
-            return (P*b*L/(6*E*I))*((1-b**2/L**2)*x - x**3/L**2)
-        else:
-            return (P*a/(6*E*I))*(-a**2+(2*L+a**2/L)*x - 3*x**2+x**3/L)
+        self.update_params()
+        return beam_model.deflections(x)   
 
     def V(self, x):
         """Tvärkraften vid x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
-
-        if x < a:
-            return P*b/L
-        else:
-            return -P*a/L
+        self.update_params()
+        return beam_model.shear_forces(x)   
 
     def M(self, x):
         """Moment vid x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
-
-        if x < a:
-            return -P*b*x/L
-        else:
-            return -P*a*(L-x)/L
+        self.update_params()
+        return beam_model.moments(x)
 
     def to_float(self, new_value, old_value):
         """Hantera tilldelning av egenskaper på ett säkert sätt"""

@@ -131,3 +131,5 @@ dmypy.json
 build-*
 f2py/beam/.vscode/settings.json
 *.dll
+*.mod
+*.o
