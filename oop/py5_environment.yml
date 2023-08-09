@@ -1,0 +1,14 @@
+name: py5coding
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - cairo
+  - cairosvg
+  - jedi=0.17.2
+  - jupyterlab
+  - line_profiler
+  - matplotlib
+  - pip
+  - pip:
+      - py5[jupyter]

@@ -3,6 +3,8 @@
 from py5 import Sketch
 import random, math
 
+global sketch
+
 class DrawableBase:
     def __init__(self):
         self.stroke_color = [0, 0, 0]
@@ -11,15 +13,15 @@ class DrawableBase:
         self.fill_alpha = 255
         self.stroke_width = 1
 
-    def do_draw(self):
+    def on_draw(self):
         pass
 
     def draw(self):
-        p5sketch.stroke(self.stroke_color[0], self.stroke_color[1], self.stroke_color[2], self.stroke_alpha)
-        p5sketch.fill(self.fill_color[0], self.fill_color[1], self.fill_color[2], self.fill_alpha)
-        p5sketch.stroke_weight(self.stroke_width)
+        sketch.stroke(self.stroke_color[0], self.stroke_color[1], self.stroke_color[2], self.stroke_alpha)
+        sketch.fill(self.fill_color[0], self.fill_color[1], self.fill_color[2], self.fill_alpha)
+        sketch.stroke_weight(self.stroke_width)
 
-        self.do_draw()
+        self.on_draw()
         
 
 class Particle(DrawableBase):
@@ -36,16 +38,16 @@ class Particle(DrawableBase):
         self.x += self.vx*dt
         self.y += self.vy*dt
 
-    def do_draw(self):
-        p5sketch.point(self.x, self.y)
+    def on_draw(self):
+        sketch.point(self.x, self.y)
 
 class RoundParticle(Particle):
     def __init__(self, x=0.0, y=0.0, r=1.0):
         super().__init__(x, y)
         self.r = r
 
-    def do_draw(self):
-        p5sketch.ellipse(self.x, self.y, self.r*2, self.r*2)
+    def on_draw(self):
+        sketch.ellipse(self.x, self.y, self.r*2, self.r*2)
 
 class BoxBoundary:
     def __init__(self):
@@ -102,6 +104,5 @@ class ParticleSketch(Sketch):
 
 if __name__ == "__main__":
 
-    global p5sketch
-    p5sketch = ParticleSketch()
-    p5sketch.run_sketch()        
+    sketch = ParticleSketch()
+    sketch.run_sketch()        

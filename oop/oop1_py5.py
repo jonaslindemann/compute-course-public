@@ -2,15 +2,18 @@
 
 from py5 import Sketch
 
+global sketch
+
+
 class Point:
     def __init__(self):
         self.x = 0.0
         self.y = 0.0
 
     def draw(self):
-        g_sketch.stroke(0)
-        g_sketch.stroke_weight(4)
-        g_sketch.point(self.x, self.y)
+        sketch.stroke(0)
+        sketch.stroke_weight(4)
+        sketch.point(self.x, self.y)
 
 class OopSketch(Sketch):
 
@@ -28,6 +31,5 @@ class OopSketch(Sketch):
 
 if __name__ == "__main__":
 
-    global g_sketch
-    g_sketch = OopSketch()
-    g_sketch.run_sketch()
+    sketch = OopSketch()
+    sketch.run_sketch()
