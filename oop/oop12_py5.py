@@ -3,6 +3,8 @@
 from py5 import Sketch
 import random, math
 
+global sketch
+
 class DrawBase:
     def __init__(self):
         self.__stroke_color = [0, 0, 0]
@@ -37,9 +39,9 @@ class DrawBase:
         pass
 
     def draw(self):
-        p5sketch.stroke(self.__stroke_color[0], self.__stroke_color[1], self.__stroke_color[2])
-        p5sketch.fill(self.__fill_color[0], self.__fill_color[1], self.__fill_color[2])
-        p5sketch.stroke_weight(self.__stroke_width)
+        sketch.stroke(self.__stroke_color[0], self.__stroke_color[1], self.__stroke_color[2])
+        sketch.fill(self.__fill_color[0], self.__fill_color[1], self.__fill_color[2])
+        sketch.stroke_weight(self.__stroke_width)
 
         self.do_draw()
         
@@ -85,7 +87,7 @@ class Point(DrawBase):
         return 0.0
 
     def do_draw(self):
-        p5sketch.point(self.x, self.y)
+        sketch.point(self.x, self.y)
 
 
 class Circle(Point):
@@ -112,7 +114,7 @@ class Circle(Point):
         return "Circle("+str(self.x)+", "+str(self.y)+", "+str(self.__r)+")"
 
     def do_draw(self):
-        p5sketch.ellipse(self.x, self.y, self.r, self.r)
+        sketch.ellipse(self.x, self.y, self.r, self.r)
 
 
 class Line(DrawBase):
@@ -158,7 +160,7 @@ class Line(DrawBase):
         return return_string
 
     def do_draw(self):
-        p5sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
+        sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
 
 class OopSketch(Sketch):
 
@@ -178,6 +180,5 @@ class OopSketch(Sketch):
 
 if __name__ == "__main__":
 
-    global p5sketch
-    p5sketch = OopSketch()
-    p5sketch.run_sketch()        
+    sketch = OopSketch()
+    sketch.run_sketch()        

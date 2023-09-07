@@ -3,6 +3,8 @@
 from py5 import Sketch
 import random, math
 
+global sketch
+
 class Point:
     def __init__(self, x=0.0, y=0.0):
         self.__x = x
@@ -43,9 +45,9 @@ class Point:
         return 0.0
 
     def draw(self):
-        p5sketch.stroke(0)
-        p5sketch.stroke_weight(4)
-        p5sketch.point(self.x, self.y)
+        sketch.stroke(0)
+        sketch.stroke_weight(4)
+        sketch.point(self.x, self.y)
 
 
 class Circle(Point):
@@ -72,9 +74,9 @@ class Circle(Point):
         return "Circle("+str(self.x)+", "+str(self.y)+", "+str(self.__r)+")"
 
     def draw(self):
-        p5sketch.stroke(0)
-        p5sketch.stroke_weight(1)
-        p5sketch.ellipse(self.x, self.y, self.r, self.r)
+        sketch.stroke(0)
+        sketch.stroke_weight(1)
+        sketch.ellipse(self.x, self.y, self.r, self.r)
 
 
 class Line:
@@ -119,7 +121,7 @@ class Line:
         return return_string
 
     def draw(self):
-        p5sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
+        sketch.line(self.p0.x, self.p0.y, self.p1.x, self.p1.y)
 
 class OopSketch(Sketch):
 
@@ -139,6 +141,5 @@ class OopSketch(Sketch):
 
 if __name__ == "__main__":
 
-    global p5sketch
-    p5sketch = OopSketch()
-    p5sketch.run_sketch()        
+    sketch = OopSketch()
+    sketch.run_sketch()        
