@@ -13,15 +13,15 @@ class DrawableBase:
         self.fill_alpha = 255
         self.stroke_width = 1
 
-    def on_draw(self):
-        pass
-
     def draw(self):
         sketch.stroke(self.stroke_color[0], self.stroke_color[1], self.stroke_color[2], self.stroke_alpha)
         sketch.fill(self.fill_color[0], self.fill_color[1], self.fill_color[2], self.fill_alpha)
         sketch.stroke_weight(self.stroke_width)
 
         self.on_draw()
+
+    def on_draw(self):
+        pass
         
 
 class Particle(DrawableBase):
