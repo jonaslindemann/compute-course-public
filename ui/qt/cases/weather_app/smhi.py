@@ -44,6 +44,8 @@ class SMHI():
 
         names = {}
 
+        print(self.forecast["timeSeries"][0])
+
         for item in self.forecast["timeSeries"]:
             params = item["parameters"]
             for param in params:
@@ -73,9 +75,9 @@ if __name__ == '__main__':
     params = smhi.parameter_names()
     date_times, values = smhi.parameter_values("t")
 
-    print(params)
-    print(date_times)
-    print(values)
+    #print(params)
+    #print(date_times)
+    #print(values)
 
     plt.plot_date(date_times, values, xdate=True, fmt="r-")
     ax = plt.gca()
