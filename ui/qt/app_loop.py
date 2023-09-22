@@ -3,6 +3,7 @@
 import sys
 
 from qtpy.QtWidgets import QApplication, QWidget
+from qtpy.QtCore import Qt
 
 if __name__ == "__main__":
 

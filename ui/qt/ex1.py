@@ -19,5 +19,5 @@ if __name__ == "__main__":
     widget.show()
 
     print("Before application loop.")
-    sys.exit(app.exec_())
+    app.exec_()
     print("Last window closed.")

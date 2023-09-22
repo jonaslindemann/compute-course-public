@@ -11,6 +11,8 @@ import sys
 from math import *
 
 from qtpy.QtWidgets import *
+from qtpy.QtCore import Qt
+
 
 class MyWindow(QWidget):
     """Main Window class for our application"""

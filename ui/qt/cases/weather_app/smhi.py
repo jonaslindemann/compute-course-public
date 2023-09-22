@@ -16,15 +16,15 @@ import matplotlib.ticker as mticker
 
 class SMHI():
     """Class for extracting a weather forecast"""
-    def __init__(self):
+    def __init__(self, longitude="16", latitude="58"):
         """Class constructor"""
 
         self.url = "https://opendata-download-metfcst.smhi.se"
         self.api_template = "/api/category/{}/version/{}/geotype/point/lon/{}/lat/{}/data.json"
         self.category = "pmp3g"
         self.version = "2"
-        self.longitude = "16"
-        self.latitude = "58"
+        self.longitude = longitude
+        self.latitude = latitude
         self.request_forecast()
 
     def request_forecast(self):
@@ -39,7 +39,7 @@ class SMHI():
 
         self.forecast = json.loads(smhi_info.text)
 
-    def extract_param_names(self):
+    def parameter_names(self):
         """Return a list with available param_names"""
 
         names = {}
@@ -52,7 +52,7 @@ class SMHI():
 
         return names
 
-    def extract_param(self, name):
+    def parameter_values(self, name):
         """Extract specific values from data"""
 
         date_times = []
@@ -70,8 +70,8 @@ class SMHI():
 if __name__ == '__main__':
 
     smhi = SMHI()
-    params = smhi.extract_param_names()
-    date_times, values = smhi.extract_param("r")
+    params = smhi.parameter_names()
+    date_times, values = smhi.parameter_values("t")
 
     print(params)
     print(date_times)
@@ -80,11 +80,8 @@ if __name__ == '__main__':
     plt.plot_date(date_times, values, xdate=True, fmt="r-")
     ax = plt.gca()
 
-    myLocator = mticker.MultipleLocator(8)
-    ax.xaxis.set_major_locator(myLocator)
+    my_locator = mticker.MultipleLocator(8)
+    ax.xaxis.set_major_locator(my_locator)
     plt.gcf().autofmt_xdate()
-    #date_format = mpl_dates.DateFormatter('%Y-%m')
-    #plt.gca().xaxis.set_major_formatter(date_format)
 
-    #plt.tick_params(axis='x', which='major', labelsize = 6)
     plt.show()

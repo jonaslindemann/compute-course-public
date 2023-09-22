@@ -76,8 +76,8 @@ class WeatherWindow(QMainWindow):
         self.current_param = self.param_combo.currentText()        
         
     def request_forecast(self):
-        self.params = self.smhi.extract_param_names()
-        self.date_times, self.values = self.smhi.extract_param(self.current_param)
+        self.params = self.smhi.parameter_names()
+        self.date_times, self.values = self.smhi.parameter_values(self.current_param)
         
     def plot(self):
         
