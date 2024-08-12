@@ -227,8 +227,8 @@ if __name__ == "__main__":
     beam.loads = [-1.0e3, -1.0e3, -1.0e3]
     beam.solve()
 
-    plt.figure()
-    plt.plot(beam.y_displ)
+    #plt.figure()
+    #plt.plot(beam.y_displ)
     #plt.figure()
     #plt.plot(beam.NVM)
     #plt.show()

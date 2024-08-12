@@ -133,3 +133,6 @@ f2py/beam/.vscode/settings.json
 *.dll
 *.mod
 *.o
+*.exe
+ui.zip
+ui/qt/archive.zip
