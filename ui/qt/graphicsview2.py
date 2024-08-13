@@ -7,19 +7,25 @@ Created on Sun Nov 26 17:10:06 2017
 """
 
 import sys
+from random import uniform
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
-from qtpy.QtGui import *
-from qtpy import uic
-from random import *
+from qtpy.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QGraphicsView,
+    QApplication,
+    QGraphicsScene,
+)
+
+from qtpy.QtGui import QPen, QBrush, QColor, QPainter, QFont, QColor
+from qtpy.QtCore import Qt
+
 
 class DrawingEnv:
     """Drawing environment class"""
 
     def __init__(self):
         """Class constructor"""
-        print("DrawingEnv constructor")
         self.scene = QGraphicsScene()
         self.pen = QPen(Qt.black)
         self.pen.setWidth(3)
@@ -37,7 +43,9 @@ class DrawingEnv:
 
     def circle(self, x, y, r):
         """Draw a circle"""
-        self.scene.addEllipse(x-r, y-r, 2*r, 2*r, self.current_pen, self.current_brush)
+        self.scene.addEllipse(
+            x - r, y - r, 2 * r, 2 * r, self.current_pen, self.current_brush
+        )
 
     def rectangle(self, x, y, w, h):
         """Draw a rectangle"""
@@ -86,60 +94,61 @@ class GraphicsWindow(QWidget, DrawingEnv):
         """Class constructor"""
         super(GraphicsWindow, self).__init__()
 
-        # Load and show our user interface
+        # Create view
 
         self.graphics_view = QGraphicsView()
-        #self.graphics_view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        #self.graphics_view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(self.graphics_view)
-
         self.graphics_view.setScene(self.scene)
         self.graphics_view.setInteractive(True)
         self.graphics_view.setRenderHint(QPainter.Antialiasing)
 
-        for i in range(100):
+        # Draw some shapes
+
+        for _ in range(100):
             self.stroke(uniform(0, 255), uniform(0, 255), uniform(0, 255))
             self.fill(uniform(0, 255), uniform(0, 255), uniform(0, 255))
             self.line(
                 uniform(-1000.0, 1000.0),
                 uniform(-1000.0, 1000.0),
                 uniform(-1000.0, 1000.0),
-                uniform(-1000.0, 1000.0)
+                uniform(-1000.0, 1000.0),
             )
             self.rectangle(
                 uniform(-1000.0, 1000.0),
                 uniform(-1000.0, 1000.0),
                 uniform(0.0, 100.0),
-                uniform(0.0, 100.0)
+                uniform(0.0, 100.0),
             )
             self.circle(
-                uniform(-1000.0, 1000.0),
-                uniform(-1000.0, 1000.0),
-                uniform(0.0, 100.0)
+                uniform(-1000.0, 1000.0), uniform(-1000.0, 1000.0), uniform(0.0, 100.0)
             )
-            self.text(
-                uniform(-1000.0, 1000.0),
-                uniform(-1000.0, 1000.0),
-                "Hello Qt!"
-            )
+            self.text(uniform(-1000.0, 1000.0), uniform(-1000.0, 1000.0), "Hello Qt!")
+
+        # Set layout
+
+        self.layout = QVBoxLayout(self)
+        self.layout.addWidget(self.graphics_view)
+
+        # Set window title and size
+
+        self.setWindowTitle("Graphics View")
+        self.resize(800, 800)
+
+        # Show the view
 
         self.graphics_view.show()
 
-        self.resize(800, 800)
-
-    def showEvent(self, event):
+    def showEvent(self, _):
+        """Event handler for the show event"""
         self.graphics_view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
         self.graphics_view.centerOn(0, 0)
 
-    def resizeEvent(self, event):
-        print("resize")
+    def resizeEvent(self, _):
+        """Event handler for the resize event"""
         self.graphics_view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
         self.graphics_view.centerOn(0, 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
