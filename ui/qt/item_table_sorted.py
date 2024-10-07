@@ -8,7 +8,13 @@ Created on Sun Nov 26 17:10:06 2017
 
 import sys
 
-from qtpy.QtWidgets import QTableWidgetItem, QTableWidget, QWidget, QVBoxLayout, QApplication
+from qtpy.QtWidgets import (
+    QTableWidgetItem,
+    QTableWidget,
+    QWidget,
+    QVBoxLayout,
+    QApplication,
+)
 from qtpy.QtCore import Qt
 
 import numpy as np
@@ -17,6 +23,7 @@ import pandas as pd
 
 class CustomQTableWidgetItem(QTableWidgetItem):
     """Custom QTableWidgetItem class"""
+
     def __init__(self, value):
         """Class constructor"""
         super().__init__(str(value))
@@ -65,7 +72,6 @@ class ItemTableWindow(QWidget):
         # Show table
 
         self.item_table.show()
-
 
     def update_controls(self):
         """Update table control"""

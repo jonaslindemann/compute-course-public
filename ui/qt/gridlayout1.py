@@ -58,6 +58,7 @@ class MyWindow(QWidget):
         self.grid.addWidget(self.button9, 2, 2)
 
         self.grid.setContentsMargins(20, 40, 20, 40)
+        #self.grid.setContentsMargins(0,0,0,0)
 
         self.grid.setHorizontalSpacing(20)
         self.grid.setVerticalSpacing(20)
