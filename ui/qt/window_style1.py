@@ -18,7 +18,7 @@ class MyWindow(QMainWindow):
         #super().__init__(None, Qt.Window )        
         #super().__init__(None, Qt.Window | Qt.Dialog)        
         super().__init__(None, Qt.Window | Qt.Tool)        
-        self.resize(600,600)
+        self.resize(300,200)
         self.move(50,50)
         self.setWindowTitle("MyWindow")
         

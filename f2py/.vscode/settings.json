@@ -1,0 +1,4 @@
+{
+    "fortran.fortls.disabled": true,
+    "python.terminal.activateEnvInCurrentTerminal": true
+}

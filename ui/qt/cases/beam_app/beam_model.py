@@ -7,6 +7,7 @@ Modul som innehåller klassdefinitionen för BeamModel
 
 import calfem.core as cfc
 import numpy as np
+import matplotlib.pyplot as plt
 
 import json
 
@@ -185,7 +186,7 @@ class BeamModel(object):
 
         for el_displ, el_x, el_y, el_ep, el_eq in zip(ed, ex, ey, ep, eq):
             es = cfc.beam2s(el_x, el_y, el_ep, el_displ, el_eq)
-            self.NVM[i, :] = es[0][0]
+            self.NVM[i, :] = es[0]
             self.x[i] = el_x[0]
             i += 1
 
@@ -227,8 +228,8 @@ if __name__ == "__main__":
     beam.loads = [-1.0e3, -1.0e3, -1.0e3]
     beam.solve()
 
-    #plt.figure()
-    #plt.plot(beam.y_displ)
-    #plt.figure()
-    #plt.plot(beam.NVM)
-    #plt.show()
+    plt.figure()
+    plt.plot(beam.y_displ)
+    plt.figure()
+    plt.plot(beam.NVM)
+    plt.show()

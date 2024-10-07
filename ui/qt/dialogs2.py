@@ -35,7 +35,7 @@ class MyWindow(QMainWindow):
 
     def on_dialog(self):
         """Method for handling MyAction"""
-        QMessageBox.critical(self, "Meddelande", "Ouch!")
+        QMessageBox.critical(self, "Message", "This is a critical message.")
 
 
 if __name__ == '__main__':

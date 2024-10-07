@@ -2,15 +2,10 @@
 
 import os
 import numpy as np
-import fortran_utils as utils
+import mf_mixed
 
-# Add the path to the directory containing the Fortran runtime DLL to the system path
-
-utils.f2py_setup()
-
-if utils.f2py_compile("fortmod", ["arr1.f90"])!=0:
-    print("Compilation failed")
-    exit()
+mf_mixed.f2py_setup()
+mf_mixed.f2py_compile('fortmod', ['arr1.f90'])
 
 from fortmod import *
 

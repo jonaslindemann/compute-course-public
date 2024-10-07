@@ -1,5 +1,8 @@
-import sys
-sys.path.append("./build") 
+
+import mf_mixed
+
+mf_mixed.f2py_setup()
+mf_mixed.f2py_compile('fortmod', ['simple.f90'])
 
 from numpy import *
 from fortmod import *

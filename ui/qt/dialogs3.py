@@ -35,7 +35,7 @@ class MyWindow(QMainWindow):
 
     def on_dialog(self):
         """Method for handling MyAction"""
-        QMessageBox.warning(self, "Meddelande", "Ouch!")
+        QMessageBox.warning(self, "Message", "This is a warning message.")
 
 
 if __name__ == '__main__':

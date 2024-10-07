@@ -29,9 +29,11 @@ class Particle(DrawableBase):
         super().__init__()
         self.x = x
         self.y = y
-
         self.vx = 0.0
-        self.vy = 0.0
+        self.vy = 0.
+        self.stroke_color = [255, 0, 0]
+
+        self.stroke_width = 2
 
     def update(self, dt):
         self.x += self.vx*dt
@@ -41,12 +43,22 @@ class Particle(DrawableBase):
         sketch.point(self.x, self.y)
 
 class RoundParticle(Particle):
-    def __init__(self, x=0.0, y=0.0, r=1.0):
+    def __init__(self, x=0.0, y=0.0, r=50.0):
         super().__init__(x, y)
         self.r = r
 
     def on_draw(self):
         sketch.ellipse(self.x, self.y, self.r*2, self.r*2)
+
+class SquareParticle(Particle):
+    def __init__(self, x=0.0, y=0.0, w=50.0, h=50.0):
+        super().__init__(x, y)
+        self.w = w
+        self.h = h
+        self.r = w/2
+
+    def on_draw(self):
+        sketch.rect(self.x, self.y, self.w, self.h)
 
 class BoxBoundary:
     def __init__(self):
@@ -55,24 +67,19 @@ class BoxBoundary:
         self.ymin = 0.0
         self.ymax = 600.0
 
-    def is_inside(self, p):
-        return (p.x - p.r > self.xmin) and (p.x + p.r < self.xmax) and (p.y - p.r > self.ymin) and (p.y + p.r < self.ymin)
-
     def check(self, p):
-        if not self.is_inside(p):
-            if (p.x - p.r) < self.xmin:
-                p.vx = -p.vx
-                p.x = self.xmin + p.r
-            if (p.x + p.r) > self.xmax:
-                p.vx = -p.vx
-                p.x = self.xmax - p.r
-            if (p.y - p.r) < self.ymin:
-                p.vy = -p.vy
-                p.y = self.ymin + p.r
-            if (p.y + p.r) > self.ymax:
-                p.vy = -p.vy
-                p.y = self.ymax - p.r
-
+        if p.x - p.r < self.xmin:
+            p.x = self.xmin + p.r
+            p.vx = -p.vx
+        elif p.x + p.r > self.xmax:
+            p.x = self.xmax - p.r
+            p.vx = -p.vx
+        if p.y - p.r < self.ymin:
+            p.y = self.ymin + p.r
+            p.vy = -p.vy
+        elif p.y + p.r > self.ymax:
+            p.y = self.ymax - p.r
+            p.vy = -p.vy
 
 class ParticleSketch(Sketch):
 
@@ -84,21 +91,28 @@ class ParticleSketch(Sketch):
         self.ellipse_mode(self.CENTER)
 
         self.particles = []
+
         self.boundary = BoxBoundary()
 
         for i in range(100):
-            p = RoundParticle(self.random(0,600), self.random(0,600), self.random(30, 70))
+            if self.random(1) < 0.5:
+                p = SquareParticle(self.random(0,600), self.random(0, 600), self.random(30, 70), self.random(30, 70))
+            else:
+                p = RoundParticle(self.random(0,600), self.random(0, 600), self.random(30, 70))
+
             p.vx = self.random(-60.0, 60.0)
             p.vy = self.random(-60.0, 60.0)
             p.fill_color = [self.random(255), self.random(255), self.random(255)]
             p.fill_alpha = self.random(50, 255)
+
             self.particles.append(p)
+
 
     def draw(self):
         self.background(40)
 
         for p in self.particles:
-            p.update(1.0/60.0)
+            p.update(1/60)
             self.boundary.check(p)
             p.draw()
 

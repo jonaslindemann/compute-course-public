@@ -14,8 +14,9 @@ from matplotlib import dates as mpl_dates
 import matplotlib.ticker as mticker
 
 
-class SMHI():
+class SMHI:
     """Class for extracting a weather forecast"""
+
     def __init__(self, longitude="16", latitude="58"):
         """Class constructor"""
 
@@ -44,8 +45,6 @@ class SMHI():
 
         names = {}
 
-        print(self.forecast["timeSeries"][0])
-
         for item in self.forecast["timeSeries"]:
             params = item["parameters"]
             for param in params:
@@ -68,14 +67,15 @@ class SMHI():
                     date_times.append(item["validTime"])
 
         return date_times, values
-    
+
+
 if __name__ == '__main__':
 
     smhi = SMHI()
     params = smhi.parameter_names()
     date_times, values = smhi.parameter_values("t")
 
-    #print(params)
+    # print(params)
     #print(date_times)
     #print(values)
 

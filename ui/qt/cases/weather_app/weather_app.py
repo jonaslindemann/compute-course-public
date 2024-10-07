@@ -64,15 +64,15 @@ class WeatherWindow(QMainWindow):
         self.param_combo.clear()
         for name in self.params.keys():
             self.param_combo.addItem(name)
-            
-        print(self.smhi.longitude)
-            
+                        
         self.lon_edit.setText(str(self.smhi.longitude))
         self.lat_edit.setText(str(self.smhi.latitude))
         
     def update_model(self):
-        self.smhi.latitude = self.lat_edit.text()
-        self.smhi.longitude = self.lon_edit.text()
+        if self.lat_edit.text()!="":
+            self.smhi.latitude = self.lat_edit.text()
+        if self.lon_edit.text()!="":
+            self.smhi.longitude = self.lon_edit.text()
         self.current_param = self.param_combo.currentText()        
         
     def request_forecast(self):
@@ -81,6 +81,8 @@ class WeatherWindow(QMainWindow):
         
     def plot(self):
         
+        self.update_model()
+
         self.figure.clear()
         axes = self.figure.gca()
 
