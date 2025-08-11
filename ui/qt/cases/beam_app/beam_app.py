@@ -5,7 +5,10 @@ Created on Thu Apr  5 23:42:08 2018
 @author: Jonas Lindemann
 """
 
-import sys
+import os, sys
+
+os.environ['QT_API'] = 'pyqt6'
+
 
 from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog, QStyle
 from qtpy.QtGui import QIcon
@@ -157,9 +160,6 @@ class BeamWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-
-    #QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    #QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)         
 
     application = QApplication(sys.argv)
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys
+import sys, os
 
 from qtpy.QtWidgets import QApplication, QWidget
 from qtpy.QtCore import Qt

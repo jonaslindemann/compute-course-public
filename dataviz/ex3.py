@@ -30,5 +30,5 @@ plt.imshow(image_data[:,:,50])
 print("Saving to VTK")
 pointdata = vtk.PointData(vtk.Scalars(image_data.reshape(256*256*113)))
 data = vtk.VtkData(vtk.StructuredPoints([113,256,256]), pointdata)
-data.tofile('ctehad','ascii')
+data.tofile('cthead','ascii')
 
