@@ -219,6 +219,9 @@ class BeamWindow(QMainWindow):
             self.update_controls()
             self.update_combo_labels()
 
+            if self.results_window is not None:
+                self.results_window.update()
+
     def on_segment_combo(self, idx: int) -> None:
         """Händelsemetod för att hantera val i listbox"""
 

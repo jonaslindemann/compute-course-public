@@ -19,19 +19,25 @@ class DrawWidget(QWidget):
 
         # Koordinatgränser
         self.world_bounds = QRectF(-10, -10, 20, 20)  # xmin, ymin, bredd, höjd
-        self._update_transform()
+        self.__update_transform()
 
         self.__stroke_color = Qt.black
         self.__fill_color = Qt.white
         self.__stroke_width = 1.0
         self.__text_color = Qt.black
+        self.__painter = None
 
         self.stroke_pen = QPen(self.__stroke_color, self.__stroke_width)
         self.fill_brush = QBrush(self.__fill_color)
         self.font = QFont()
         self.text_pen = QPen(self.__text_color)
 
-    def _update_transform(self):
+    def update(self) -> None:
+        """Uppdatera kontrollen"""
+        self.__update_transform()
+        self.__update_painter()
+
+    def __update_transform(self) -> None:
         """Uppdatera transformationsmatrisen mellan världs- och fönsterkoordinater"""
         if not self.width() or not self.height():
             return
@@ -60,93 +66,89 @@ class DrawWidget(QWidget):
             -self.world_bounds.center().x(), -self.world_bounds.center().y()
         )
 
-    def paintEvent(self, event):
-        """Rita kontrollen"""
-        super().paintEvent(event)
+    def __update_painter(self) -> None:
+        """Uppdatera pennor och penslar baserat på aktuella färger och storlekar"""
 
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(self.stroke_pen)
-        painter.setBrush(self.fill_brush)
-        painter.setBackground(Qt.white)
-        painter.fillRect(0, 0, self.width(), self.height(), Qt.white)
+        self.stroke_pen.setColor(self.__stroke_color)
+        self.stroke_pen.setWidth(int(self.__stroke_width))
+        self.fill_brush.setColor(self.__fill_color)
+        self.text_pen.setColor(self.__text_color)
+
+        if self.__painter is None:
+            return
+
+        self.__painter.setRenderHints(
+            QPainter.Antialiasing | QPainter.TextAntialiasing
+        )
+        self.__painter.setPen(self.stroke_pen)
+        self.__painter.setBrush(self.fill_brush)
+
+    def paintEvent(self, event) -> None:
+        """Rita kontrollen"""
+
+        super().paintEvent(event)
+        
+        self.painter.fillRect(0, 0, self.width(), self.height(), Qt.white)
 
         # Delegera uppritning till underklassen
-
         self.on_draw()
 
-    def on_draw(self):
+        self.painter.end()
+        self.painter = None
+
+    def on_draw(self) -> None:
         """Metod för att implementera uppritning i underklasser"""
         pass
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Hantera storleksändringar av kontrollen"""
         super().resizeEvent(event)
 
-        self._update_transform()
+        self.__update_transform()
         self.update()
 
-    def set_world_bounds(self, xmin: float, ymin: float, width: float, height: float):
+    def set_world_bounds(self, xmin: float, ymin: float, width: float, height: float) -> None:
         """Uppdatera världskoordinater"""
         self.world_bounds = QRectF(xmin, ymin, width, height)
-        self._update_transform()
+        self.__update_transform()
+
         self.update()
 
-    def window_to_world(self, x, y):
+    def window_to_world(self, x: int, y: int) -> QPointF:
         """Konvertera fönsterkoordinater till världskoordinater"""
         return self.transform.inverted()[0].map(QPointF(x, y))
 
-    def world_to_window(self, x, y):
+    def world_to_window(self, x: float, y: float) -> QPointF:
         """Konvertera världskoordinater till fönsterkoordinater"""
         return self.transform.map(QPointF(x, y))
 
-    def painter(self):
-        """Returnera ett anpassat QPainter-objekt för kontrollen"""
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(self.stroke_pen)
-        painter.setBrush(self.fill_brush)
-        return painter
-
-    def polygon(self, points):
+    def polygon(self, points: list[tuple[float, float]]) -> None:
         """Rita en polygon med punkter"""
-
-        painter = self.painter()
-        # Transformera punkterna men inte pennan
         mapped_points = [self.transform.map(QPointF(x, y)) for x, y in points]
-        painter.drawPolygon(mapped_points)
+        self.painter.drawPolygon(mapped_points)
 
-    def line(self, x1, y1, x2, y2):
+    def line(self, x1: float, y1: float, x2: float, y2: float) -> None:
         """Rita en linje"""
-        painter = self.painter()
-        # Transformera punkterna men inte pennan
         p1 = self.transform.map(QPointF(x1, y1))
         p2 = self.transform.map(QPointF(x2, y2))
-        painter.drawLine(p1, p2)
+        self.painter.drawLine(p1, p2)
 
-    def arrow(self, x1, y1, x2, y2, arrow_size=5, arrow_start=True, arrow_end=True):
+    def arrow(self, x1: float, y1: float, x2: float, y2: float, arrow_size: int=5, arrow_start: bool=True, arrow_end: bool=True) -> None:
         """Rita en pil"""
-        painter = QPainter(self)
-
-        # Transformera punkterna men inte pennan
         p1 = self.transform.map(QPointF(x1, y1))
         p2 = self.transform.map(QPointF(x2, y2))
-        painter.drawLine(p1, p2)
+        self.painter.drawLine(p1, p2)
 
-        # Rita pilhuvudet i skärmkoordinater
         dx = p2.x() - p1.x()
         dy = p2.y() - p1.y()
         length = (dx**2 + dy**2) ** 0.5
         if length == 0:
             return
 
-        # Normalisera riktningsvektorn
         dx /= length
         dy /= length
 
         s_arrow_size = arrow_size * abs(self.scale)
-
-        # Beräkna pilhuvudpunkter (i skärmkoordinater)
 
         if arrow_end:
             p3 = QPointF(
@@ -157,9 +159,8 @@ class DrawWidget(QWidget):
                 p2.x() - dx * s_arrow_size - dy * s_arrow_size / 2,
                 p2.y() - dy * s_arrow_size + dx * s_arrow_size / 2,
             )
-
-            painter.drawLine(p2, p3)
-            painter.drawLine(p2, p4)
+            self.painter.drawLine(p2, p3)
+            self.painter.drawLine(p2, p4)
 
         if arrow_start:
             p5 = QPointF(
@@ -170,41 +171,31 @@ class DrawWidget(QWidget):
                 p1.x() + dx * s_arrow_size - dy * s_arrow_size / 2,
                 p1.y() + dy * s_arrow_size + dx * s_arrow_size / 2,
             )
-            painter.drawLine(p1, p5)
-            painter.drawLine(p1, p6)
+            self.painter.drawLine(p1, p5)
+            self.painter.drawLine(p1, p6)
 
-    def rect(self, x, y, w, h):
+    def rect(self, x: float, y: float, w: float, h: float) -> None:
         """Rita en rektangel"""
-
-        painter = self.painter()
-        # Transformera punkterna men inte pennan
         p1 = self.transform.map(QPointF(x, y))
         p2 = self.transform.map(QPointF(x + w, y + h))
-        painter.drawRect(QRectF(p1, p2))
+        self.painter.drawRect(QRectF(p1, p2))
 
-    def circle(self, x, y, r):
+    def circle(self, x: float, y: float, r: float) -> None:
         """Rita en cirkel"""
-
-        painter = self.painter()
-        # Transformera punkterna men inte pennan
         p = self.transform.map(QPointF(x, y))
         screen_r = r * abs(self.scale)
-        painter.drawEllipse(
+        self.painter.drawEllipse(
             QRectF(p.x() - screen_r, p.y() - screen_r, 2 * screen_r, 2 * screen_r)
         )
 
-    def triangle(self, x, y, w, h):
+    def triangle(self, x: float, y: float, w: float, h: float) -> None:
         """Rita en triangel"""
-
-        painter = self.painter()
-        # Transformera punkterna men inte pennan
         p1 = self.transform.map(QPointF(x, y))
         p2 = self.transform.map(QPointF(x + w / 2, y - h))
         p3 = self.transform.map(QPointF(x - w / 2, y - h))
+        self.painter.drawPolygon([p1, p2, p3])
 
-        painter.drawPolygon([p1, p2, p3])
-
-    def text(self, x, y, text, font_size=12, hor_align="left", vert_align="middle"):
+    def text(self, x: float, y: float, text: str, font_size: int=12, hor_align: str="left", vert_align: str="middle"):
         """
         Rita text i världskoordinater med skärmpixelstorlek på fonten
 
@@ -215,15 +206,13 @@ class DrawWidget(QWidget):
             hor_align: Horisontell justering - "left", "right" eller "center" (standard: "left")
             vert_align: Vertikal justering - "top", "middle" eller "bottom" (standard: "middle")
         """
-        painter = QPainter(self)
-
         # Ställ in fonten
-        font = painter.font()
+        font = self.painter.font()
         font.setPixelSize(int(font_size * abs(self.scale)))
-        painter.setFont(font)
+        self.painter.setFont(font)
 
         # Hämta textmått för justering
-        metrics = painter.fontMetrics()
+        metrics = self.painter.fontMetrics()
         text_width = metrics.horizontalAdvance(text)
         text_height = metrics.height()
 
@@ -243,9 +232,26 @@ class DrawWidget(QWidget):
             p.setY(p.y() + text_height / 2)
         # För bottenjustering behövs ingen justering eftersom Qt ritar från botten
 
-        painter.setPen(self.text_pen)
-        painter.drawText(p, text)
-        painter.setPen(self.stroke_pen)
+        self.painter.setPen(self.text_pen)
+        self.painter.drawText(p, text)
+        self.painter.setPen(self.stroke_pen)
+
+    @property
+    def painter(self) -> QPainter:
+        """Returnera den aktuella QPainter-objektet för kontrollen"""
+
+        if self.__painter is None:
+            self.__painter = QPainter(self)
+
+        self.__update_painter()
+
+        return self.__painter
+    
+    @painter.setter
+    def painter(self, painter):
+        """Sätt en ny QPainter för kontrollen"""
+        self.__painter = painter
+        self.__update_painter()
 
     @property
     def stroke_color(self):

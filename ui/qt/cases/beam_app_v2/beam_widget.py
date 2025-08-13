@@ -34,7 +34,7 @@ class BeamWidget(DrawWidget):
 
         self.update_scale_factors()
 
-    def update_scale_factors(self):
+    def update_scale_factors(self) -> None:
         y_max = self.beam_model.y_displ.max()
         y_min = self.beam_model.y_displ.min()
 
@@ -50,13 +50,14 @@ class BeamWidget(DrawWidget):
             self.max_height,
         )
 
-    def on_model_updated(self):
+    def on_model_updated(self) -> None:
         self.update_scale_factors()
         self.update()
 
-    def draw_beams(self):
+    def draw_beams(self) -> None:
 
         # Draw beam
+
         self.stroke_color = Qt.black
         self.fill_color = Qt.white
         self.stroke_width = 2.0
@@ -69,7 +70,7 @@ class BeamWidget(DrawWidget):
 
             self.line(x0, y0, x1, y1)
 
-    def draw_dimensions(self):
+    def draw_dimensions(self) -> None:
 
         # Draw dimensions
         self.stroke_color = Qt.black
@@ -105,7 +106,7 @@ class BeamWidget(DrawWidget):
         x += self.beam_model.lengths[-1]
         self.line(x, y_start, x, y_end)
 
-    def draw_supports(self):
+    def draw_supports(self) -> None:
 
         # Draw supports
         self.stroke_color = Qt.black
@@ -123,7 +124,7 @@ class BeamWidget(DrawWidget):
             elif support == BeamModel.FIXED_XYR:
                 self.draw_support(x, y, fixed=True)
 
-    def draw_loads(self):
+    def draw_loads(self) -> None:
         # Draw loads
         self.stroke_color = QColor(128, 50, 50)
         self.fill_color = QColor(128, 50, 50, 64)
@@ -161,7 +162,7 @@ class BeamWidget(DrawWidget):
                     vert_align="top",
                 )
 
-    def draw_moments(self):
+    def draw_moments(self) :
 
         # Draw moments
         self.stroke_color = QColor(50, 128, 50)
@@ -176,12 +177,8 @@ class BeamWidget(DrawWidget):
 
             self.line(x0, y0, x1, y1)
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         """Draw the widget"""
-
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setTransform(self.transform)
 
         if self.show_loads:
             self.draw_loads()
@@ -198,7 +195,7 @@ class BeamWidget(DrawWidget):
         if self.show_dimensions:
             self.draw_dimensions()
 
-    def draw_support(self, x, y, roller=False, fixed=False):
+    def draw_support(self, x: float, y: float, roller: bool=False, fixed: bool=False) -> None:
         """Draw a support at position x, y with angle and radius"""
 
         if roller:
@@ -221,7 +218,7 @@ class BeamWidget(DrawWidget):
                     y - self.support_size,
                 )
 
-    def draw_load(self, x, w, h):
+    def draw_load(self, x: float, w: float, h: float) -> None:
         """Draw a load at position x, y with angle and radius"""
 
         self.rect(x, 0, w, h)
@@ -254,7 +251,7 @@ class BeamWidget(DrawWidget):
                 -self.support_size * 0.5,
             )
 
-    def draw_displacement(self):
+    def draw_displacement(self) -> None:
         # Draw displacements
         self.stroke_color = QColor(128, 50, 50)
         self.fill_color = QColor(128, 50, 50, 64)
@@ -268,7 +265,7 @@ class BeamWidget(DrawWidget):
 
             self.line(x0, y0, x1, y1)
 
-    def draw_moments(self):
+    def draw_moments(self) -> None:
 
         # Draw moments
         self.stroke_color = QColor(50, 128, 50)
@@ -289,7 +286,7 @@ class BeamWidget(DrawWidget):
 
         self.polygon(points)
 
-    def draw_section_force(self):
+    def draw_section_force(self) -> None:
 
         # Draw moments
         self.stroke_color = QColor(50, 50, 128)

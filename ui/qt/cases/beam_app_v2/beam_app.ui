@@ -356,7 +356,7 @@
      <x>0</x>
      <y>0</y>
      <width>925</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="file_menu">
@@ -370,13 +370,6 @@
     <addaction name="save_as_action"/>
     <addaction name="separator"/>
     <addaction name="exit_action"/>
-   </widget>
-   <widget class="QMenu" name="input_menu">
-    <property name="title">
-     <string>Indata</string>
-    </property>
-    <addaction name="segments_action"/>
-    <addaction name="bc_action"/>
    </widget>
    <widget class="QMenu" name="menuResultat">
     <property name="title">
@@ -397,7 +390,6 @@
    </widget>
    <addaction name="file_menu"/>
    <addaction name="menuRedigera"/>
-   <addaction name="input_menu"/>
    <addaction name="menuResultat"/>
   </widget>
   <widget class="QToolBar" name="toolBar">

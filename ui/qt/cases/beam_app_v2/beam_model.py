@@ -9,6 +9,7 @@ import logging
 import json
 
 import numpy as np
+
 import calfem.core as cfc
 from calfem.matrix_compat import MatrixCompat
 
@@ -40,14 +41,7 @@ class BeamModel(object):
     def new(self) -> None:
         """Initiera balkmodell"""
 
-        E = BeamModel.DEFAULT_E
-        A = BeamModel.DEFAULT_A
-        I = BeamModel.DEFAULT_I
-
-        self.lengths = [2.0, 3.0]
-        self.segments = [10, 20]
-        self.loads = [0.0, 0.0]
-        self.supports = [BeamModel.FIXED_XY, BeamModel.FIXED_Y, BeamModel.FIXED_XYR]
+        def_props = self._default_properties()
 
         self.lengths = [2.0, 2.0, 3.0]
         self.segments = [100, 100, 100]
@@ -58,7 +52,7 @@ class BeamModel(object):
             BeamModel.FIXED_Y,
         ]
         self.loads = [1.0e3, 1.0e3, 0.5e3]
-        self.properties = [[E, A, I], [E, A, I], [E, A, I]]
+        self.properties = [def_props, def_props, def_props]
 
         # Attribut som lagrar värden som tas fram vid beräkningen
         # och som behövs för att kunna rita upp modellen i
@@ -337,13 +331,4 @@ class BeamModel(object):
 if __name__ == "__main__":
 
     beam = BeamModel()
-    beam.lengths = [2.0, 2.0, 3.0]
-    beam.segments = [100, 100, 100]
-    beam.supports = [
-        BeamModel.FIXED_XY,
-        BeamModel.FIXED_Y,
-        BeamModel.FIXED_Y,
-        BeamModel.FIXED_XYR,
-    ]
-    beam.loads = [-1.0e3, -1.0e3, -1.0e3]
     beam.solve()
