@@ -7,19 +7,20 @@ Innehåller huvudklassen BeamWindow som är huvudfönstret för programmet samt 
 @author: Jonas Lindemann
 """
 
-import os, sys
+import os
+import sys
 
 os.environ["QT_API"] = "pyside6"
 
-from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog
+from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from qtpy import uic
 
 from beam_model import BeamModel
 from beam_results import BeamResultsWindow
 from beam_widget import BeamWidget
+from beam_utils import try_float, close_console
 import beam_res
 
-from beam_utils import resource_path, try_float, close_console, load_ui
 
 
 class BeamWindow(QMainWindow):
@@ -31,8 +32,7 @@ class BeamWindow(QMainWindow):
         super().__init__()
 
         # Läs in gränssnitt från fil
-        uic.loadUi("beam_app.ui", self)
-        #load_ui("beam_app.ui", self)
+        self.setup_ui()
 
         # Klassattribut
 
@@ -42,7 +42,7 @@ class BeamWindow(QMainWindow):
         self.segments_window = None
         self.results_window = None
 
-        self.current_segment = -1
+        self.current_segment = 0
 
         # Skapa och initiera balk modell
 
@@ -98,7 +98,13 @@ class BeamWindow(QMainWindow):
         self.right_support_xy_option.clicked.connect(self.on_editing_finished)
         self.right_support_y_option.clicked.connect(self.on_editing_finished)
 
-    def new_model(self):
+    def setup_ui(self) -> None:
+        """Läs in gränssnitt från fil"""
+
+        uic.loadUi("beam_app.ui", self)
+
+
+    def new_model(self) -> None:
         """Skapa en ny modell"""
 
         self.beam_model.new()
@@ -109,8 +115,11 @@ class BeamWindow(QMainWindow):
 
         self.beam_widget.on_model_updated()
 
-    def update_controls(self):
+    def update_controls(self) -> None:
         """Uppdatera kontroller med värden från balkmodell"""
+
+        if not (0 <= self.current_segment < len(self.beam_model.segments)):
+            return
 
         self.segment_length_text.setText(
             str(self.beam_model.lengths[self.current_segment])
@@ -140,7 +149,7 @@ class BeamWindow(QMainWindow):
         elif self.beam_model.supports[self.current_segment + 1] == BeamModel.FIXED_XYR:
             self.right_support_xyr_option.setChecked(True)
 
-    def update_combo(self):
+    def update_combo(self) -> None:
         """Uppdatera listbox med balksegment"""
 
         self.segment_combo.clear()
@@ -151,14 +160,14 @@ class BeamWindow(QMainWindow):
 
         self.segment_combo.setCurrentIndex(self.current_segment)
 
-    def update_combo_labels(self):
+    def update_combo_labels(self) -> None:
         """Uppdatera texter i listbox"""
 
         for i, item in enumerate(self.beam_model.segments):
             beam_descr = f"{i+1}: {self.beam_model.lengths[i]} m"
             self.segment_combo.setItemText(i, beam_descr)
 
-    def on_editing_finished(self, text=""):
+    def on_editing_finished(self, text: str ="") -> None:
         """Hantera ändringar i kontroller"""
 
         if self.current_segment != -1:
@@ -210,80 +219,89 @@ class BeamWindow(QMainWindow):
             self.update_controls()
             self.update_combo_labels()
 
-    def on_segment_combo(self, idx):
+    def on_segment_combo(self, idx: int) -> None:
         """Händelsemetod för att hantera val i listbox"""
 
         self.current_segment = idx
         self.update_controls()
 
-    def on_new(self):
+    def on_new(self) -> None:
         """Händelsemetod för att skapa en ny modell"""
 
         self.new_model()
         self.update_controls()
 
-    def on_exit(self):
+    def on_exit(self) -> None:
         """Händelsemetod för att avsluta programmet"""
         self.close()
 
-    def on_open(self):
+    def on_open(self) -> None:
         """Händelsemetod för att öppna en modell"""
+        
+        try:
+            self.filename, _ = QFileDialog.getOpenFileName(
+                self, "Öppna modell", "", "Modell filer (*.json *.jpg *.bmp)"
+            )
 
-        self.filename, _ = QFileDialog.getOpenFileName(
-            self, "Öppna modell", "", "Modell filer (*.json *.jpg *.bmp)"
-        )
-
-        if self.filename != "":
-            self.beam_model.new()
-            self.beam_model.open_from_json(self.filename)
-            self.beam_model.solve()
-            self.beam_widget.on_model_updated()
-            self.update_controls()
+            if self.filename != "":
+                self.beam_model.open_from_json(self.filename)
+                self.beam_widget.on_model_updated()
+                self.update_controls()
+        except Exception as e:
+            QMessageBox.critical(self, "Fel", f"Kunde inte öppna filen:\n{e}")
 
     def on_save(self):
         """Händelsemetod för spara modellfil"""
 
-        if self.filename == "":
-            self.filename, _ = QFileDialog.getSaveFileName(
-                self, "Spara modell", "", "Modell filer (*.json)"
-            )
+        try:
+            if self.filename == "":
+                self.filename, _ = QFileDialog.getSaveFileName(
+                    self, "Spara modell", "", "Modell filer (*.json)"
+                )
 
-        if self.filename != "":
-            self.beam_model.save_as_json(self.filename)
+            if self.filename != "":
+                self.beam_model.save_as_json(self.filename)
+
+        except Exception as e:
+            QMessageBox.critical(self, "Fel", f"Kunde inte spara filen:\n{e}")
 
     def on_save_as(self):
         """Händelsemetod för att spara som ..."""
 
-        temp_filename, _ = QFileDialog.getSaveFileName(
-            self, "Spara modell", "", "Modell filer (*.json)"
-        )
+        try:
+            temp_filename, _ = QFileDialog.getSaveFileName(
+                self, "Spara modell", "", "Modell filer (*.json)"
+            )
 
-        if temp_filename != "":
-            self.filename = temp_filename
-            self.beam_model.save_as_json(self.filename)
+            if temp_filename != "":
+                self.filename = temp_filename
+                self.beam_model.save_as_json(self.filename)
 
-    def on_moment(self):
-        """Händelsemetod för att visa momentdiagram"""
+        except Exception as e:
+            QMessageBox.critical(self, "Fel", f"Kunde inte spara filen:\n{e}")
+
+    def on_moment(self) -> None:
+        """Händelsemetod för att visa momentdiagram."""
 
         self.beam_widget.show_moments = self.moment_action.isChecked()
 
-    def on_section_force(self):
-        """Händelsemetod för att visa snittkraftsdiagram"""
+    def on_section_force(self) -> None:
+        """Händelsemetod för att visa snittkraftsdiagram."""
 
         self.beam_widget.show_section_force = self.section_force_action.isChecked()
 
-    def on_displ(self):
-        """Händelsemetod för att visa förskjutningsdiagram"""
+    def on_displ(self) -> None:
+        """Händelsemetod för att visa förskjutningsdiagram."""
 
         self.beam_widget.show_displacement = self.displ_action.isChecked()
 
-    def on_dimension(self):
-        """Händelsemetod för att visa dimensioner"""
+    def on_dimension(self) -> None:
+        """Händelsemetod för att visa dimensioner."""
 
         self.beam_widget.show_dimensions = self.dimension_action.isChecked()
 
-    def on_add_beam(self):
-        """Händelsemetod för att lägga till en balk"""
+    def on_add_beam(self) -> None:
+        """Händelsemetod för att lägga till en balk."""
 
         self.beam_model.add_segment()
         self.beam_widget.on_model_updated()
@@ -292,7 +310,7 @@ class BeamWindow(QMainWindow):
         self.update_controls()
 
     def on_remove_beam(self):
-        """Händelsemetod för att ta bort en balk"""
+        """Händelsemetod för att ta bort en balk."""
 
         self.beam_model.remove_segment()
         self.beam_widget.on_model_updated()
@@ -301,7 +319,7 @@ class BeamWindow(QMainWindow):
         self.update_controls()
 
     def on_results_view(self):
-        """Händelsemetod för att visa resultatdialogrutan"""
+        """Händelsemetod för att visa resultatdialogrutan."""
 
         if self.results_view_action.isChecked():
             if self.results_window is not None:
@@ -315,7 +333,7 @@ class BeamWindow(QMainWindow):
                 self.results_window.close()
 
     def on_results_view_close(self):
-        """Händelsemetod för att stänga resultatdialogrutan"""
+        """Händelsemetod för att stänga resultatdialogrutan."""
 
         self.results_view_action.setChecked(False)
 

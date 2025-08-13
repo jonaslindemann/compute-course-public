@@ -5,10 +5,15 @@ Balkmodell för att beräkna en kontinuerlig balk
 Klassen implementerar en kontinuerlig balk som bestående av flera segment. Varje segment kan ha olika längd, antal element, last och material. Balken kan ha olika typer av upplag och laster. Klassen använder sig av Calfem för att beräkna balken.
 """
 
-import calfem.core as cfc
-import numpy as np
-
+import logging
 import json
+
+import numpy as np
+import calfem.core as cfc
+from calfem.matrix_compat import MatrixCompat
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class BeamModel(object):
@@ -18,23 +23,31 @@ class BeamModel(object):
     FIXED_XY = 2
     FIXED_XYR = 3
 
+    DEFAULT_E = 2.1e9
+    DEFAULT_A = 0.1 * 0.1
+    DEFAULT_I = 0.1 * (0.1**3) / 12
+
     def __init__(self):
         """Klasskonstruktor"""
 
         self.new()
 
-    def new(self):
+    def _default_properties(self) -> list:
+        """Returnerar standardmaterialegenskaper för balken"""
+        E, A, I = BeamModel.DEFAULT_E, BeamModel.DEFAULT_A, BeamModel.DEFAULT_I
+        return [E, A, I]
+
+    def new(self) -> None:
         """Initiera balkmodell"""
 
-        E = 2.1e9
-        A = 0.1 * 0.1
-        I = 0.1 * (0.1**3) / 12
+        E = BeamModel.DEFAULT_E
+        A = BeamModel.DEFAULT_A
+        I = BeamModel.DEFAULT_I
 
         self.lengths = [2.0, 3.0]
         self.segments = [10, 20]
         self.loads = [0.0, 0.0]
         self.supports = [BeamModel.FIXED_XY, BeamModel.FIXED_Y, BeamModel.FIXED_XYR]
-        self.properties = None
 
         self.lengths = [2.0, 2.0, 3.0]
         self.segments = [100, 100, 100]
@@ -62,7 +75,7 @@ class BeamModel(object):
 
         self.solve()
 
-    def add_segment(self):
+    def add_segment(self) -> None:
         """Lägg till ett segment"""
 
         self.lengths.append(self.lengths[-1])
@@ -72,7 +85,7 @@ class BeamModel(object):
         self.properties.append(self.properties[-1])
         self.solve()
 
-    def remove_segment(self):
+    def remove_segment(self) -> None:
         """Ta bort ett segment"""
 
         if len(self.lengths) > 1:
@@ -83,7 +96,7 @@ class BeamModel(object):
             self.properties.pop()
             self.solve()
 
-    def solve(self):
+    def solve(self) -> None:
         """Löser ett system av kontinuerliga balkar"""
 
         # Kontrollera att vi har materialegenskaper
@@ -232,29 +245,39 @@ class BeamModel(object):
         self.NVM[i, :] = es[1]
         self.x[i] = el_x[1]
 
-    def save_as_json(self, filename):
+    def save_as_json(self, filename: str) -> None:
         """Save beam model as json file"""
 
-        beam_dict = {}
-        beam_dict["lengths"] = self.lengths
-        beam_dict["segments"] = self.segments
-        beam_dict["loads"] = self.loads
-        beam_dict["supports"] = self.supports
-        beam_dict["properties"] = self.properties
+        try: 
+            beam_dict = {}
+            beam_dict["lengths"] = self.lengths
+            beam_dict["segments"] = self.segments
+            beam_dict["loads"] = self.loads
+            beam_dict["supports"] = self.supports
+            beam_dict["properties"] = self.properties
 
-        with open(filename, "w") as json_file:
-            json.dump(beam_dict, json_file, sort_keys=True, indent=4)
+            with open(filename, "w") as json_file:
+                json.dump(beam_dict, json_file, sort_keys=True, indent=4)
 
-    def open_from_json(self, filename):
+        except (IOError, KeyError, json.JSONDecodeError) as e:
+            logger.error(f"Error saving beam model: {e}")
+
+    def open_from_json(self, filename: str) -> None:
         """Load beam model from json file"""
 
-        with open(filename, "r") as json_file:
-            beam_dict = json.load(json_file)
-            self.lengths = beam_dict["lengths"]
-            self.segments = beam_dict["segments"]
-            self.loads = beam_dict["loads"]
-            self.supports = beam_dict["supports"]
-            self.properties = beam_dict["properties"]
+        try:
+            with open(filename, "r") as json_file:
+                self.new()
+                beam_dict = json.load(json_file)
+                self.lengths = beam_dict["lengths"]
+                self.segments = beam_dict["segments"]
+                self.loads = beam_dict["loads"]
+                self.supports = beam_dict["supports"]
+                self.properties = beam_dict["properties"]
+                self.solve()
+
+        except (IOError, KeyError, json.JSONDecodeError) as e:
+            logger.error(f"Error loading beam model: {e}")
 
     @property
     def total_length(self):
