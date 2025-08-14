@@ -19,14 +19,9 @@ class MyWindow(QMainWindow):
         """Klassens konstruktor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Initiera gränssnitt"""
-
         self.resize(400, 200)
         self.move(50, 50)
-        self.setWindowTitle("MyWindow")
+        self.setWindowTitle("Toolbar Example")
 
         # Definiera actions
 

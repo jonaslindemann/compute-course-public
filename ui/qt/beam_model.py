@@ -13,55 +13,55 @@ class BeamSimplySupported:
 
         # Initiera standardvärden
 
-        self._a = 1.0
-        self._b = 2.0
-        self._L = self.a + self.b
-        self._P = 1000
-        self._E = 2.1e9
-        self._I = 0.1*0.1**4/12.0
+        self.__a = 1.0
+        self.__b = 2.0
+        self.__L = self.a + self.b
+        self.__P = 1000
+        self.__E = 2.1e9
+        self.__I = 0.1*0.1**4/12.0
 
-    def v(self, x):
+    def v(self, x: float) -> float:
         """Beräkna deformationen vid x"""
 
-        a = self._a
-        b = self._b
-        L = self._L
-        P = self._P
-        E = self._E
-        I = self._I
+        a = self.__a
+        b = self.__b
+        L = self.__L
+        P = self.__P
+        E = self.__E
+        I = self.__I
 
         if x < a:
             return (P*b*L/(6*E*I))*((1-b**2/L**2)*x - x**3/L**2)
         else:
             return (P*a/(6*E*I))*(-a**2+(2*L+a**2/L)*x - 3*x**2+x**3/L)
 
-    def V(self, x):
+    def V(self, x: float) -> float:
         """Tvärkraften vid x"""
 
-        a = self._a
-        b = self._b
-        L = self._L
-        P = self._P
+        a = self.__a
+        b = self.__b
+        L = self.__L
+        P = self.__P
 
         if x < a:
             return P*b/L
         else:
             return -P*a/L
 
-    def M(self, x):
+    def M(self, x: float) -> float:
         """Moment vid x"""
 
-        a = self._a
-        b = self._b
-        L = self._L
-        P = self._P
+        a = self.__a
+        b = self.__b
+        L = self.__L
+        P = self.__P
 
         if x < a:
             return -P*b*x/L
         else:
             return -P*a*(L-x)/L
 
-    def to_float(self, new_value, old_value):
+    def to_float(self, new_value: any, old_value: float) -> float:
         """Hantera tilldelning av egenskaper på ett säkert sätt"""
 
         try:
@@ -74,37 +74,37 @@ class BeamSimplySupported:
     # --- Get/Set metoder
 
     def get_a(self):
-        return self._a
+        return self.__a
 
     def set_a(self, v):
-        self._a = self.to_float(v, self._a)
+        self.__a = self.to_float(v, self.__a)
 
     def get_b(self):
-        return self._b
+        return self.__b
 
     def set_b(self, v):
-        self._b = self.to_float(v, self._b)
+        self.__b = self.to_float(v, self.__b)
 
     def get_P(self):
-        return self._P
+        return self.__P
 
     def set_P(self, v):
-        self._P = self.to_float(v, self._P)
+        self.__P = self.to_float(v, self.__P)
 
     def get_L(self):
-        return self._a + self._b
+        return self.__a + self.__b
 
     def get_E(self):
-        return self._E
+        return self.__E
 
     def set_E(self, v):
-        self._E = self.to_float(v, self._E)
+        self.__E = self.to_float(v, self.__E)
 
     def get_I(self):
-        return self._I
+        return self.__I
 
     def set_I(self, v):
-        self._I = self.to_float(v, self._I)
+        self.__I = self.to_float(v, self.__I)
 
     # Egenskaper
 

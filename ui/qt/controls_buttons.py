@@ -7,17 +7,17 @@ from qtpy.QtCore import *
 
 class MyWindow(QWidget):
     def __init__(self):
-        """MyWindow konstruktor"""
+        """MyWindow constructor"""
         super().__init__()
 
-        # Skapa gränssnittskontroller
+        # Create interface controls
 
         self.init_gui()
 
     def init_gui(self):
-        """Initiera gränssnitt"""
+        """Initialize interface"""
 
-        # Skapa en knappkontroll
+        # Create a button control
 
         self.button1 = QPushButton("Press me", self)
         self.button1.resize(100,30)
@@ -31,51 +31,42 @@ class MyWindow(QWidget):
         self.button3.resize(100,30)
         self.button3.move(20+120*2,20)
 
-        # Koppla metod till signalen clicked
+        # Connect method to the clicked signal
 
         self.button1.clicked.connect(self.on_button1_clicked)
         self.button2.clicked.connect(self.on_button2_clicked)
 
-        # Sätt fönsteregenskaper
+        # Set window properties
 
         self.setGeometry(300, 300, 400, 100)
-        self.setWindowTitle("MyWidget")
+        self.setWindowTitle("Button Example")
 
-        # Visa fönster
+        # Show window
 
         self.show()
 
-
     def on_button1_clicked(self):
-        """Händelsemetod för signalen clicked"""
+        """Event method for the clicked signal"""
         if self.button2.isVisible():
             self.button2.setVisible(False)
         else:
             self.button2.setVisible(True)
 
-
     def on_button2_clicked(self):
-        """Händelsemetod för signalen clicked"""
+        """Event method for the clicked signal"""
         if self.button3.isEnabled():
             self.button3.setEnabled(False)
-            self.button3.setText("Not enabled")
         else:
             self.button3.setEnabled(True)
-            self.button3.setText("Enabled")
 
-
-
-if __name__ == "__main__":
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == "__main__":  
 
     app = QApplication(sys.argv)
 
-    # Skapa vårt MyWindow objekt
+    # Create our MyWindow object
 
     window = MyWindow()
 
-    # Starta händelseloop
+    # Start event loop
 
     sys.exit(app.exec_())

@@ -17,27 +17,24 @@ class MyWindow(QWidget):
         """Klass konstructor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Skapa gränssnitt"""
-
         # Konfigurera fönster
 
-        self.resize(300, 150)
+        self.resize(300, 200)
         self.move(50, 50)
-        self.setWindowTitle("MyWindow")
+        self.setWindowTitle("Slider Example")
 
         # Skapa kontroller
 
         self.vert_slider = QSlider(Qt.Vertical, self)
         self.vert_slider.move(20, 20)
+        self.vert_slider.resize(30, 150)
         self.vert_slider.setMaximum(100)
         self.vert_slider.setMinimum(0)
         self.vert_slider.setValue(50)
 
         self.horiz_slider = QSlider(Qt.Horizontal, self)
-        self.horiz_slider.move(50, 20)
+        self.horiz_slider.move(60, 20)
+        self.horiz_slider.resize(150, 30)
         self.horiz_slider.setMaximum(100)
         self.horiz_slider.setMinimum(0)
         self.horiz_slider.setValue(50)
@@ -49,14 +46,12 @@ class MyWindow(QWidget):
 
     def on_value_changed(self, value):
         """Hantera signalen valueChanged"""
+        
         print("vertical value   =", self.vert_slider.value())
         print("horizontal value =", self.horiz_slider.value())
 
 
 if __name__ == '__main__':
-    
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
 
     app = QApplication(sys.argv)
     

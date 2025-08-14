@@ -15,22 +15,12 @@ class MainWindow(QWidget):
 
         super().__init__()
 
-        # Load and show our user interface
-
-        self.init_gui()
-
-    def init_gui(self):
-        """Initialisera gränssnitt"""
-
-        uic.loadUi("form.ui", self)
+        uic.loadUi("controls_form_ui.ui", self)
 
         self.push_button_1.setText("Press me!")
 
 
 if __name__ == '__main__':
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True) #use highdpi icons    
 
     app = QApplication(sys.argv)
 

@@ -23,12 +23,12 @@ class MainWindow(QMainWindow):
 
         # Load and show our user interface
         
-        uic.loadUi("graphicsview1.ui", self)
+        uic.loadUi("graphics_view_1.ui", self)
         
-        self.scene = QGraphicsScene(self.graphicsView)
-        self.graphicsView.setScene(self.scene)
-        self.graphicsView.setInteractive(True)
-        self.graphicsView.setRenderHint(QPainter.Antialiasing)  
+        self.scene = QGraphicsScene(self.graphics_view)
+        self.graphics_view.setScene(self.scene)
+        self.graphics_view.setInteractive(True)
+        self.graphics_view.setRenderHint(QPainter.Antialiasing)  
                 
         for i in range(100):
             line = self.scene.addLine(
@@ -39,23 +39,19 @@ class MainWindow(QMainWindow):
                     QPen(Qt.red)
                     )
 
-        self.graphicsView.show()
+        self.graphics_view.show()
 
         self.resize(800, 800)
 
     def showEvent(self, event):
-        self.graphicsView.fitInView(self.scene.sceneRect())
-        self.graphicsView.centerOn(0,0)
+        self.graphics_view.fitInView(self.scene.sceneRect())
+        self.graphics_view.centerOn(0,0)
 
     def resizeEvent(self, event):
-        print("resize")
-        self.graphicsView.fitInView(self.scene.sceneRect())
-        self.graphicsView.centerOn(0,0)
+        self.graphics_view.fitInView(self.scene.sceneRect())
+        self.graphics_view.centerOn(0,0)
 
-if __name__ == '__main__':
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == '__main__':    
 
     app = QApplication(sys.argv)
 

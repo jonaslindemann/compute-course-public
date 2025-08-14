@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-QCheckBox Example
+Qt expression evaluation Example
 Created on Mon Apr 11 09:44:29 2016
 
 @author: Jonas Lindemann
@@ -14,7 +14,7 @@ from qtpy.QtWidgets import *
 from qtpy.QtCore import Qt
 
 
-class MyWindow(QWidget):
+class ExprEvalWindow(QWidget):
     """Main Window class for our application"""
 
     def __init__(self):
@@ -55,32 +55,27 @@ class MyWindow(QWidget):
         self.calc_button.clicked.connect(self.on_calc_button_clicked)
         self.close_button.clicked.connect(self.on_close_button_clicked)
 
-    def on_calc_button_clicked(self):
+    def on_calc_button_clicked(self) -> None:
         """Calc button event method"""
 
         expression = self.expression_edit.text()
         result = eval(expression)
         self.result_edit.setText(str(result))
 
-    def on_close_button_clicked(self):
+    def on_close_button_clicked(self) -> None:
         """Close button event method"""
 
         self.close()
 
 
 if __name__ == '__main__':
-    """Application main program"""
-
-    # Instantiate application object
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)     
+    """Application main program""" 
 
     app = QApplication(sys.argv)
 
     # Create window
 
-    window = MyWindow()
+    window = ExprEvalWindow()
     window.show()
 
     # Application event loop

@@ -7,43 +7,38 @@ from qtpy.QtGui import *
 from qtpy.QtCore import *
 
 class MyWindow(QWidget):
-    """Huvudklass för fönstret"""
+    """Main class for the window"""
 
     def __init__(self):
-        """Klass constructor"""
+        """Class constructor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Initiera gränssnitt"""
-
-        # Konfigurera fönster
+        # Configure window
 
         self.resize(400, 200)
         self.move(50, 50)
         self.setWindowTitle("MyWindow")
 
-        # Skapa knapp
+        # Create button
 
-        self.button = QPushButton("Tryck", self)
+        self.button = QPushButton("Press", self)
         self.button.move(230, 18)
         self.button.clicked.connect(self.on_button_clicked)
 
-        # Skapa textetikett
+        # Create text label
 
-        self.label = QLabel("Textruta", self)
+        self.label = QLabel("Text box", self)
         self.label.move(20, 22)
 
-        # Skapa textkontroll
+        # Create text control
 
         self.line_edit = QLineEdit(self)
         self.line_edit.move(80, 20)
         self.line_edit.setText("Text")
 
-        # Skapa label-kontroll med bild.
+        # Create label control with image.
 
-        self.image_label = QLabel("Bild", self)
+        self.image_label = QLabel("Image", self)
         self.image_label.move(20, 60)
         self.image_label.setScaledContents(True)
         self.image_label.resize(300, 100)
@@ -52,21 +47,18 @@ class MyWindow(QWidget):
         self.show()
 
     def on_button_clicked(self):
-        """Händelsemetod för signalen clicked"""
+        """Event method for the clicked signal"""
         QMessageBox.information(self, "Text", self.line_edit.text())
 
 
-if __name__ == "__main__":
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == "__main__":     
 
     app = QApplication(sys.argv)
 
-    # Skapa vårt MyWindow objekt
+    # Create our MyWindow object
 
     window = MyWindow()
 
-    # Starta händelseloop
+    # Start event loop
 
     sys.exit(app.exec_())

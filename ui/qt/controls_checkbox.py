@@ -20,9 +20,9 @@ class MyWindow(QWidget):
 
         self.resize(400,100)
         self.move(50,50)
-        self.setWindowTitle("MyWindow")
+        self.setWindowTitle("Checkbox Example")
 
-        self.check_box = QCheckBox("Extra allt", self)
+        self.check_box = QCheckBox("Extra all", self)
         self.check_box.move(20,20)
         self.check_box.setChecked(True)
         self.check_box.stateChanged.connect(self.on_state_change)
@@ -31,16 +31,13 @@ class MyWindow(QWidget):
     def on_state_change(self):
         """Respond to button click"""
         if self.check_box.checkState():
-            QMessageBox.information(self, "Meddelande", "Extra allt")
+            QMessageBox.information(self, "Message", "Extra all")
         else:
-            QMessageBox.information(self, "Meddelande", "Inget")
+            QMessageBox.information(self, "Message", "Nothing extra")
 
 if __name__ == '__main__':
     
-    app = QApplication(sys.argv)
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)     
+    app = QApplication(sys.argv)  
     
     window = MyWindow()
     window.show()

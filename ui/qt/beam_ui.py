@@ -26,13 +26,13 @@ class BeamWindow(QWidget):
 
         # Initiera användargränssnitt
 
-        self.init_gui()
+        self.setup_ui()
 
         # Uppdatera kontroller med värden från modell
 
         self.update_controls()
 
-    def init_gui(self):
+    def setup_ui(self) -> None:
         """Initiera gränssnitt"""
 
         self.resize(500, 400)
@@ -57,7 +57,7 @@ class BeamWindow(QWidget):
         self.I_edit = QLineEdit()
 
         self.text_edit = QTextEdit("")
-        self.text_edit.setFont(QFont("Courier", 6))
+        self.text_edit.setFont(QFont("Courier", 10))
 
         # Skapa layout
 
@@ -96,7 +96,7 @@ class BeamWindow(QWidget):
         self.E_edit.editingFinished.connect(self.on_editing_finished)
         self.I_edit.editingFinished.connect(self.on_editing_finished)
 
-    def update_controls(self):
+    def update_controls(self) -> None:
         """Fyll kontroller med värden från model"""
 
         self.a_edit.setText(str(self.beam.a))
@@ -107,7 +107,7 @@ class BeamWindow(QWidget):
 
         self.update_text_edit()
 
-    def update_text_edit(self):
+    def update_text_edit(self) -> None:
         """Uppdatera text kontroll"""
         self.text_edit.clear()
         self.text_edit.append('{:>10}  {:>10}  {:>10}  {:>10}'.format("x (m)", "v (m)", "V (N)", "M (Nm)"))
@@ -122,7 +122,7 @@ class BeamWindow(QWidget):
 
         self.text_edit.moveCursor(QTextCursor.Start)
 
-    def update_model(self):
+    def update_model(self) -> None:
         """Uppdatera vår balkmodell från kontroller"""
 
         self.beam.a = self.a_edit.text()
@@ -131,7 +131,7 @@ class BeamWindow(QWidget):
         self.beam.E = self.E_edit.text()
         self.beam.I = self.I_edit.text()
 
-    def on_editing_finished(self):
+    def on_editing_finished(self) -> None:
         """Uppdatera när någon kontroll uppdaterats"""
 
         self.update_model()
@@ -139,9 +139,6 @@ class BeamWindow(QWidget):
 
 
 if __name__ == '__main__':
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)     
 
     app = QApplication(sys.argv)
 

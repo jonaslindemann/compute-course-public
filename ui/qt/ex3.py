@@ -12,9 +12,9 @@ class MyWindow(QWidget):
 
         # Skapa gränssnittskontroller
 
-        self.init_gui()
+        self.setup_ui()
 
-    def init_gui(self):
+    def setup_ui(self):
         """Initiera gränssnitt"""
 
         # Skapa en knappkontroll

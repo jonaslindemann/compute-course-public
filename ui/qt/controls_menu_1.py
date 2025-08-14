@@ -10,46 +10,41 @@ import sys
 from qtpy.QtWidgets import *
 from qtpy.QtCore import *
 
-
 class MyWindow(QMainWindow):
     """Main Window class for our application"""
 
     def __init__(self):
         """Class constructor"""
         super().__init__()
-
-        self.resize(200, 200)
-        self.move(50, 50)
-        self.setWindowTitle("MyWindow")
-
+        
+        self.resize(200,200)
+        self.move(50,50)
+        self.setWindowTitle("Menu Example")
+        
         # Define action
-
-        self.action_dialog = QAction("Open dialog", self)
-        self.action_dialog.setShortcut("Ctrl-T")
-        self.action_dialog.triggered.connect(self.on_dialog)
-
+        
+        self.my_action = QAction("MyAction", self)
+        self.my_action.setShortcut("Ctrl+T") # <--- CHECK
+        self.my_action.triggered.connect(self.on_my_action)
+        
         # Connect action to menu
 
-        self.file_menu = self.menuBar().addMenu("File")
-        self.file_menu.addAction(self.action_dialog)
-
-    def on_dialog(self):
+        self.fileMenu = self.menuBar().addMenu("File")
+        self.fileMenu.addAction(self.my_action)
+        
+    def on_my_action(self):
         """Method for handling MyAction"""
-        filename, _ = QFileDialog.getOpenFileName(
-            self, 'Open file', '', 'Flow input files (*.*)')
-
-        if filename != "":
-            QMessageBox.information(self, "Val", filename)
-
+        QMessageBox.information(self, "Message", "Ouch!")
+        
 
 if __name__ == '__main__':
-
+    
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
 
     app = QApplication(sys.argv)
-
+    
     window = MyWindow()
     window.show()
-
+    
     sys.exit(app.exec_())

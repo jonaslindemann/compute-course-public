@@ -20,7 +20,7 @@ class BeamSimplySupported:
         self.__E = 2.1e9
         self.__I = 0.1*0.1**4/12.0
 
-    def v(self, x):
+    def v(self, x: float) -> float:
         """Beräkna deformationen vid x"""
 
         a = self.__a
@@ -35,7 +35,7 @@ class BeamSimplySupported:
         else:
             return (P*a/(6*E*I))*(-a**2+(2*L+a**2/L)*x - 3*x**2+x**3/L)
 
-    def V(self, x):
+    def V(self, x: float) -> float:
         """Tvärkraften vid x"""
 
         a = self.__a
@@ -48,7 +48,7 @@ class BeamSimplySupported:
         else:
             return -P*a/L
 
-    def M(self, x):
+    def M(self, x: float) -> float:
         """Moment vid x"""
 
         a = self.__a
@@ -61,7 +61,7 @@ class BeamSimplySupported:
         else:
             return -P*a*(L-x)/L
 
-    def to_float(self, new_value, old_value):
+    def to_float(self, new_value: any, old_value: float) -> float:
         """Hantera tilldelning av egenskaper på ett säkert sätt"""
 
         try:
@@ -74,47 +74,47 @@ class BeamSimplySupported:
     # --- Get/Set metoder
 
     @property
-    def a(self):
+    def a(self) -> float:
         return self.__a
 
     @a.setter
-    def a(self, v):
+    def a(self, v: any) -> None:
         self.__a = self.to_float(v, self.__a)
 
     @property
-    def b(self):
+    def b(self) -> float:
         return self.__b
 
     @b.setter
-    def b(self, v):
+    def b(self, v: any) -> None:
         self.__b = self.to_float(v, self.__b)
 
     @property
-    def P(self):
+    def P(self) -> float:
         return self.__P
 
     @P.setter
-    def P(self, v):
+    def P(self, v: any) -> None:
         self.__P = self.to_float(v, self.__P)
 
     @property
-    def L(self):
+    def L(self) -> float:
         return self.__a + self.__b
 
     @property
-    def E(self):
+    def E(self) -> float:
         return self.__E
 
     @E.setter
-    def E(self, v):
+    def E(self, v: any) -> None:
         self.__E = self.to_float(v, self.__E)
 
     @property
-    def I(self):
+    def I(self) -> float:
         return self.__I
 
     @I.setter
-    def I(self, v):
+    def I(self, v: any) -> None:
         self.__I = self.to_float(v, self.__I)
 
     # Egenskaper

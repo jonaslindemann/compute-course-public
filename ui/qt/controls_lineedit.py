@@ -17,32 +17,27 @@ class MyWindow(QWidget):
         """Class constructor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Initiera gränssnitt"""
-
-        # Konfigurera fönster
+        # Configure window
         
         self.resize(400,200)
         self.move(50,50)
         self.setWindowTitle("MyWindow")
 
-        # Skapa knapp
+        # Create button
         
-        self.button = QPushButton("Tryck", self)
+        self.button = QPushButton("Press", self)
         self.button.move(50,50)
         self.button.resize(100,50)
         self.button.clicked.connect(self.on_button_clicked)
 
-        # Skapa textkontroll
+        # Create text control
 
         self.lineEdit = QLineEdit(self)
         self.lineEdit.move(20,20)
         self.lineEdit.setText("Text")
         
     def on_button_clicked(self):
-        """Händelsemetod för signalen clicked"""
+        """Event method for the clicked signal"""
         QMessageBox.information(self, "Text", self.lineEdit.text())
         
 
