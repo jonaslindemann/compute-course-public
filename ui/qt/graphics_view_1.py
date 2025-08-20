@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         """Class constructor"""
+        
         super().__init__()
 
         # Load and show our user interface

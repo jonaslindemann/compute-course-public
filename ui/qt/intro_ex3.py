@@ -9,14 +9,7 @@ class MyWindow(QWidget):
     def __init__(self):
         """MyWindow konstruktor"""
         super().__init__()
-
-        # Skapa gränssnittskontroller
-
-        self.setup_ui()
-
-    def setup_ui(self):
-        """Initiera gränssnitt"""
-
+        
         # Skapa en knappkontroll
 
         self.button = QPushButton("Press me", self)

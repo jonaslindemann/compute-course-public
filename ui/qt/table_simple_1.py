@@ -11,49 +11,44 @@ from qtpy.QtWidgets import *
 from qtpy.QtCore import *
 
 class MyWindow(QWidget):
-    """Huvudklass för fönstret"""
+    """Main class for the window"""
 
     def __init__(self):
-        """Class konstruktor"""
+        """Class constructor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Skapa gränssnitt"""
-
-        # Sätt fönsteregenskaper
+        # Set window properties
 
         self.resize(700,400)
         self.move(50,50)
-        self.setWindowTitle("MyWindow")
+        self.setWindowTitle("Table example")
 
-        # Skapa knappar för att interagera med tabellen
+        # Create buttons to interact with the table
 
-        self.add_row_button = QPushButton("Lägg till rad", self)
+        self.add_row_button = QPushButton("Add row", self)
         self.add_row_button.move(580, 20)
-        self.add_col_button = QPushButton("Lägg till kolumn", self)
+        self.add_col_button = QPushButton("Add column", self)
         self.add_col_button.move(580, 50)
-        self.show_selected_button = QPushButton("Visa innehåll", self)
+        self.show_selected_button = QPushButton("Show content", self)
         self.show_selected_button.move(580, 80)
-        self.clear_button = QPushButton("Rensa tabell", self)
+        self.clear_button = QPushButton("Clear table", self)
         self.clear_button.move(580, 110)
 
-        # Skapa tabellkontroll
+        # Create table widget
 
         self.table = QTableWidget(5, 10, self)
         self.table.move(20,20)
         self.table.resize(550,350)
 
-        # Fyll tabell med data
+        # Fill table with data
 
         self.fill_table()
 
-        # Sätt namn på tabellhuvuden
+        # Set table headers
 
         self.update_headers()
 
-        # Koppla signaler till händelser
+        # Connect signals to events
 
         self.add_row_button.clicked.connect(self.on_add_row_button_clicked)
         self.add_col_button.clicked.connect(self.on_add_col_button_clicked)
@@ -65,13 +60,13 @@ class MyWindow(QWidget):
 
 
     def fill_table(self):
-        """Fyll tabellen med värden"""
+        """Fill the table with values"""
         for r in range(self.table.rowCount()):
             for c in range(self.table.columnCount()):
                 self.table.setItem(r, c, QTableWidgetItem("%d,%d" % (r, c)))
 
     def update_headers(self):
-        """Updatera tabellrubriker"""
+        """Update table headers"""
         for r in range(self.table.rowCount()):
             self.table.setVerticalHeaderItem(r, QTableWidgetItem("Row%d" % r))
 
@@ -79,22 +74,22 @@ class MyWindow(QWidget):
             self.table.setHorizontalHeaderItem(c, QTableWidgetItem("Col%d" % c))
 
     def on_add_row_button_clicked(self):
-        """Lägg till rad"""
+        """Add row"""
         self.table.setRowCount(self.table.rowCount()+1)
         self.update_headers()
 
     def on_add_col_button_clicked(self):
-        """Lägg till rad"""
+        """Add column"""
         self.table.setColumnCount(self.table.columnCount()+1)
         self.update_headers()
 
     def on_show_selected_button_clicked(self):
-        """Visa innehåll i markerad cell"""
+        """Show content of selected cell"""
         if self.table.currentItem()!=None:
             QMessageBox.information(self, "Text", self.table.currentItem().text())
 
     def on_clear_button_clicked(self):
-        """Rensa innehåll i tabell"""
+        """Clear table content"""
         self.table.clear()
         self.update_headers()
 
@@ -102,7 +97,7 @@ class MyWindow(QWidget):
         print("on_cell_clicked %d, %d" % (row, col))
 
     def on_current_cell_changed(self, current_row, current_col, prev_row, prev_col):
-        print("on_current_cell_changed %d, %d previous %d, %d" % (current_row, current_row, prev_row, prev_col))
+        print("on_current_cell_changed %d, %d previous %d, %d" % (current_row, current_col, prev_row, prev_col))
 
 
 

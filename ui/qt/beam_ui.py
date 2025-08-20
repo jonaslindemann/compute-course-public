@@ -11,7 +11,7 @@ from qtpy.QtWidgets import *
 from qtpy.QtGui import *
 from qtpy.QtCore import *
 
-import beam_model as bm
+import beam_model_decorators as bm
 
 class BeamWindow(QWidget):
     """Huvudfönster för programmet"""

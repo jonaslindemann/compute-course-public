@@ -21,10 +21,7 @@ class MyWindow(QMainWindow):
         self.move(50,50)
         self.setWindowTitle("MyWindow")
         
-if __name__ == '__main__':
-    
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == '__main__':     
     
     app = QApplication(sys.argv)
     

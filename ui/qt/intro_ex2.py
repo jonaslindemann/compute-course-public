@@ -13,11 +13,6 @@ class MyWindow(QWidget):
 
         # Skapa gränssnittskontroller
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Initiera gränssnitt"""
-
         self.setGeometry(300, 300, 600, 600)
         self.setWindowTitle("MyWindow")
 
@@ -25,10 +20,7 @@ class MyWindow(QWidget):
 
         self.show()
 
-if __name__ == "__main__":
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == "__main__": 
 
     app = QApplication(sys.argv)
 

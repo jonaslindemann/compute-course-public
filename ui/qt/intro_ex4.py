@@ -10,11 +10,6 @@ class MyWindow(QWidget):
         """MyWidget constructor"""
         super().__init__()
 
-        self.init_gui()
-
-    def init_gui(self):
-        """Initialise UI"""
-
         self.button = QPushButton("Press me", self)
         self.button.setToolTip("I am a button. Please press me")
         self.button.resize(self.button.sizeHint())
