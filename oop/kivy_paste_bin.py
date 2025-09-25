@@ -1,13 +1,4 @@
-from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.graphics import Color, Ellipse, Rectangle, Triangle
-from kivy.clock import Clock
-from kivy.vector import Vector
-import random
-import math
+
 
 class Particle(Widget):
     """Base class for shapes demonstrating encapsulation and inheritance"""
@@ -35,7 +26,6 @@ class Particle(Widget):
     def draw(self):
         self.canvas.clear()   
         self.pos = (self.x, self.y)
-
 
 class CircleParticle(Particle):
     """Circle shape subclass"""
@@ -94,62 +84,3 @@ class RectangleParticle(Particle):
         with self.canvas:
             Color(self.color[0], self.color[1], self.color[2], self.color[3] if len(self.color) > 3 else 1)
             self.rect = Rectangle(pos=(self.x, self.y), size=(self.width, self.height))
-
-class AnimationCanvas(Widget):
-    """Canvas to hold and animate shapes"""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.particles = []
-
-        for i in range(50):
-
-            radius = random.randint(20, 50)
-            w = random.randint(40, 100)
-            h = random.randint(20, 80)
-            
-            x = random.randint(radius, 800 - radius)
-            y = random.randint(radius, 600 - radius)
-            color = (random.random(), random.random(), random.random(), random.uniform(0.5, 1.0))
-
-
-            picked_particle = random.choice(range(3))
-
-            if picked_particle == 0:
-                self.particles.append(RectangleParticle(x, y, w, h, color))
-                self.add_widget(self.particles[-1])
-
-            if picked_particle == 1:
-                self.particles.append(CircleParticle(x, y, radius, color))
-                self.add_widget(self.particles[-1])
-
-            if picked_particle == 2:
-                self.particles.append(TriangleParticle(x, y, w, h, color))
-                self.add_widget(self.particles[-1])
-            
-        
-    def draw(self, dt):
-        """Draw all shapes"""
-        for particle in self.particles:
-            particle.update(dt)
-            particle.draw()
-
-
-class OOPLessonApp(App):
-    """Main application class"""
-    
-    def build(self):
-        root = BoxLayout(orientation='vertical')
-                
-        self.canvas = AnimationCanvas()
-        root.add_widget(self.canvas)
-        
-        Clock.schedule_interval(self.canvas.draw, 1.0/60.0)
-
-        return root
-
-    
-
-
-if __name__ == '__main__':
-    OOPLessonApp().run()
