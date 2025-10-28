@@ -15,9 +15,9 @@ class MainWindow(QWidget):
 
         super().__init__()
 
-        uic.loadUi("controls_form_ui.ui", self)
+        uic.loadUi("form.ui", self)
 
-        self.push_button_1.setText("Press me!")
+        self.push_button.setText("Press me!")
 
 
 if __name__ == '__main__':

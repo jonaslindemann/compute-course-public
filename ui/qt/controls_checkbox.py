@@ -30,7 +30,7 @@ class MyWindow(QWidget):
 
     def on_state_change(self):
         """Respond to button click"""
-        if self.check_box.checkState():
+        if self.check_box.isChecked():
             QMessageBox.information(self, "Message", "Extra all")
         else:
             QMessageBox.information(self, "Message", "Nothing extra")
