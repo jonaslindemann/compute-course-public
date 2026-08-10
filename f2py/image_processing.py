@@ -36,7 +36,6 @@ def blur_filter_vectorized(image, kernel_size=3):
 
 if __name__ == "__main__":
 
-    mf_mixed.f2py_setup()
     mf_mixed.f2py_compile('filters', ['filters.f90'])
 
     from filters import *   # Import the Fortran module

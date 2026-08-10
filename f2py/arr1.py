@@ -4,7 +4,7 @@ import os
 import numpy as np
 import mf_mixed
 
-mf_mixed.f2py_setup()
+#mf_mixed.f2py_setup()
 mf_mixed.f2py_compile('fortmod', ['arr1.f90'])
 
 from fortmod import *
