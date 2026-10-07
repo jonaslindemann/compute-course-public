@@ -1,17 +1,14 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+QListWidget example. Scrollbars are added automatically when needed.
 """
 
 import sys
 
-from qtpy.QtWidgets import QWidget, QListWidget, QMessageBox, QApplication
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QWidget, QListWidget, QVBoxLayout, QMessageBox
+
 
 class MyWindow(QWidget):
-    """Main Window class for our application"""
+    """Main window class for our application"""
 
     def __init__(self):
         """Class constructor"""
@@ -19,44 +16,40 @@ class MyWindow(QWidget):
 
         # Set window properties
 
-        self.resize(450, 450)
+        self.resize(300, 400)
         self.move(50, 50)
-        self.setWindowTitle("MyWindow")
+        self.setWindowTitle("ListWidget Example")
 
-        # Create list control
+        # Create list control and add options
 
-        self.list_box = QListWidget(self)
-        self.list_box.move(20, 20)
-        self.list_box.resize(400, 400)
-
-        # Add options to the list
-
-        for i in range(100):
-            self.list_box.addItem("Option %d" % i)
+        self.list_widget = QListWidget()
+        self.list_widget.addItems([f"Option {i}" for i in range(100)])
 
         # Set the default option to row 2
 
-        self.list_box.setCurrentRow(2)
+        self.list_widget.setCurrentRow(2)
 
         # Connect an event method to the signal
 
-        self.list_box.currentRowChanged.connect(self.on_current_row_changed)
+        self.list_widget.currentRowChanged.connect(self.on_current_row_changed)
 
-    def on_current_row_changed(self, curr):
+        # Layout
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.list_widget)
+
+    def on_current_row_changed(self, row):
         """Handle the currentRowChanged signal"""
-        
-        QMessageBox.information(self, "Message", "You selected: " + str(curr))
-        QMessageBox.information(self, "Message", "The row contained: " + self.list_box.currentItem().text())
+        QMessageBox.information(
+            self, "Message", f"You selected row {row}: {self.list_widget.currentItem().text()}"
+        )
 
 
-if __name__ == '__main__':
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
     window = MyWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

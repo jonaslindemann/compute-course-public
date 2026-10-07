@@ -1,50 +1,48 @@
-# -*- coding: utf-8 -*-
+"""
+Adding a control to a window using absolute positioning.
+
+Absolute positioning is only used here to introduce controls. See the
+layout_*.py examples for the recommended way of placing controls.
+"""
 
 import sys
 
 from qtpy.QtWidgets import QApplication, QWidget, QPushButton
-from qtpy.QtCore import *
+
 
 class MyWindow(QWidget):
+    """Main window class"""
+
     def __init__(self):
-        """MyWindow konstruktor"""
+        """MyWindow constructor"""
         super().__init__()
-        
-        # Skapa en knappkontroll
+
+        # Create a button control
 
         self.button = QPushButton("Press me", self)
         self.button.setToolTip("I am a button. Please press me")
-        self.button.resize(100,50)
-        self.button.move(50,50)
+        self.button.resize(100, 50)
+        self.button.move(50, 50)
 
-        # Koppla metod till signalen clicked
+        # Connect method to the clicked signal
 
         self.button.clicked.connect(self.on_button_clicked)
 
-        # Sätt fönsteregenskaper
+        # Set window properties
 
         self.setGeometry(300, 300, 300, 300)
-        self.setWindowTitle("MyWidget")
-
-        # Visa fönster
-
-        self.show()
+        self.setWindowTitle("MyWindow")
 
     def on_button_clicked(self):
-        """Händelsemetod för signalen clicked"""
+        """Event method for the clicked signal"""
         print("Hello")
+
 
 if __name__ == "__main__":
 
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
-
     app = QApplication(sys.argv)
 
-    # Skapa vårt MyWindow objekt
-
     window = MyWindow()
+    window.show()
 
-    # Starta händelseloop
-
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

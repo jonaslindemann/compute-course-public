@@ -1,108 +1,102 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+Standard dialogs: message boxes and file dialogs.
 """
 
 import sys
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import (
+    QApplication, QWidget, QPushButton, QGridLayout, QMessageBox, QFileDialog,
+)
 
-class MyWindow(QMainWindow):
-    """Main Window class for our application"""
+
+class MyWindow(QWidget):
+    """Main window class for our application"""
 
     def __init__(self):
         """Class constructor"""
         super().__init__()
 
-        self.resize(500, 100)
         self.move(50, 50)
-        self.setWindowTitle("Message Boxes Example")
+        self.setWindowTitle("Standard Dialogs Example")
 
-        self.button1 = QPushButton("Information", self)
-        self.button1.resize(100,30)
-        self.button1.move(20,20)
+        # Create buttons
 
-        self.button2 = QPushButton("Warning", self)
-        self.button2.resize(100,30)
-        self.button2.move(20+120,20)
+        self.info_button = QPushButton("Information")
+        self.warning_button = QPushButton("Warning")
+        self.critical_button = QPushButton("Critical")
+        self.question_button = QPushButton("Question")
+        self.open_button = QPushButton("Open file")
+        self.save_button = QPushButton("Save file")
 
-        self.button3 = QPushButton("Critical", self)
-        self.button3.resize(100,30)
-        self.button3.move(20+120*2,20)
+        # Layout
 
-        self.button4 = QPushButton("Question", self)
-        self.button4.resize(100,30)
-        self.button4.move(20+120*3,20)
+        grid = QGridLayout(self)
+        grid.addWidget(self.info_button, 0, 0)
+        grid.addWidget(self.warning_button, 0, 1)
+        grid.addWidget(self.critical_button, 0, 2)
+        grid.addWidget(self.question_button, 0, 3)
+        grid.addWidget(self.open_button, 1, 0)
+        grid.addWidget(self.save_button, 1, 1)
 
-        self.button5 = QPushButton("Open File", self)
-        self.button5.resize(100,30)
-        self.button5.move(20,60)
+        # Connect methods to the clicked signal
 
-        self.button6 = QPushButton("Save file", self)
-        self.button6.resize(100,30)
-        self.button6.move(20+120,60)
-
-
-        # Connect method to the clicked signal
-
-        self.button1.clicked.connect(self.on_info_dialog)
-        self.button2.clicked.connect(self.on_warning_dialog)
-        self.button3.clicked.connect(self.on_critical_dialog)
-        self.button4.clicked.connect(self.on_question_dialog)
-        self.button5.clicked.connect(self.on_open_file_dialog)
-        self.button6.clicked.connect(self.on_save_file_dialog)
-
+        self.info_button.clicked.connect(self.on_info_dialog)
+        self.warning_button.clicked.connect(self.on_warning_dialog)
+        self.critical_button.clicked.connect(self.on_critical_dialog)
+        self.question_button.clicked.connect(self.on_question_dialog)
+        self.open_button.clicked.connect(self.on_open_file_dialog)
+        self.save_button.clicked.connect(self.on_save_file_dialog)
 
     def on_info_dialog(self):
-        """Method for handling MyAction"""
-        QMessageBox.information(self, "Meddelande", "Detta är ett informativt meddelande.")
+        """Show an information message"""
+        QMessageBox.information(self, "Message", "This is an informative message.")
 
     def on_warning_dialog(self):
-        """Method for handling MyAction"""
-        QMessageBox.warning(self, "Meddelande", "Detta är ett varningsmeddelande.")
+        """Show a warning message"""
+        QMessageBox.warning(self, "Message", "This is a warning message.")
 
     def on_critical_dialog(self):
-        """Method for handling MyAction"""
-        QMessageBox.critical(self, "Meddelande", "Detta är ett kritiskt meddelande.")
+        """Show a critical message"""
+        QMessageBox.critical(self, "Message", "This is a critical message.")
 
     def on_question_dialog(self):
-        """Method for handling MyAction"""
-        reply = QMessageBox.question(self, "Meddelande", "Är du säker?",
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            QMessageBox.information(self, "Val", "Användaren valde Ja")
+        """Ask a yes/no question"""
+        reply = QMessageBox.question(
+            self, "Message", "Are you sure?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if reply == QMessageBox.StandardButton.Yes:
+            QMessageBox.information(self, "Choice", "You selected Yes")
         else:
-            QMessageBox.information(self, "Val", "Användaren valde Nej")
+            QMessageBox.information(self, "Choice", "You selected No")
 
     def on_open_file_dialog(self):
-        """Method for handling MyAction"""
-        filename, _ = QFileDialog.getOpenFileName(self, "Öppna fil", "", "All Files (*)")
+        """Select a file to open"""
+        filename, _ = QFileDialog.getOpenFileName(
+            self, "Open file", "", "Python files (*.py);;All files (*)"
+        )
         if filename:
-            QMessageBox.information(self, "Val", f"Vald fil: {filename}")
+            QMessageBox.information(self, "Choice", f"Selected file: {filename}")
         else:
-            QMessageBox.information(self, "Val", "Ingen fil vald")
+            QMessageBox.information(self, "Choice", "No file selected")
 
     def on_save_file_dialog(self):
-        """Method for handling MyAction"""
-        filename, _ = QFileDialog.getSaveFileName(self, "Spara fil", "", "All Files (*)")
+        """Select a file name to save to"""
+        filename, _ = QFileDialog.getSaveFileName(
+            self, "Save file", "", "Text files (*.txt);;All files (*)"
+        )
         if filename:
-            QMessageBox.information(self, "Val", f"Fil sparad som: {filename}")
+            QMessageBox.information(self, "Choice", f"Save as: {filename}")
         else:
-            QMessageBox.information(self, "Val", "Ingen fil sparad")
-        
+            QMessageBox.information(self, "Choice", "No file selected")
 
-if __name__ == '__main__':
-    
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    
+
     window = MyWindow()
     window.show()
-    
-    sys.exit(app.exec_())
-    
+
+    sys.exit(app.exec())

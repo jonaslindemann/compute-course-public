@@ -1,36 +1,33 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+Window flags control how the window system decorates a window.
+Try the different flag combinations below.
 """
 
 import sys
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QMainWindow
+from qtpy.QtCore import Qt
+
 
 class MyWindow(QMainWindow):
-    """Main Window class for our application"""
+    """Main window class for our application"""
 
     def __init__(self):
         """Class constructor"""
-        #super().__init__(None, Qt.Window )        
-        #super().__init__(None, Qt.Window | Qt.Dialog)        
-        super().__init__(None, Qt.Window | Qt.Tool)        
-        self.resize(300,200)
-        self.move(50,50)
-        self.setWindowTitle("MyWindow")
-        
+        super().__init__(None, Qt.WindowType.Window)
+        # super().__init__(None, Qt.WindowType.Window | Qt.WindowType.Dialog)
+        # super().__init__(None, Qt.WindowType.Window | Qt.WindowType.Tool)
 
-if __name__ == '__main__':
-    
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+        self.resize(300, 200)
+        self.move(50, 50)
+        self.setWindowTitle("MyWindow")
+
+
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    
+
     window = MyWindow()
     window.show()
-    
-    sys.exit(app.exec_())
+
+    sys.exit(app.exec())

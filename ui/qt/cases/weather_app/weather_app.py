@@ -9,11 +9,10 @@ import sys, os
 
 from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog, QStyle, QSizePolicy
 from qtpy.QtGui import QIcon
-from qtpy.QtCore import *
 from qtpy import uic
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
@@ -31,7 +30,7 @@ class WeatherWindow(QMainWindow):
 
         # Determine application location
 
-        app_dir = os.path.split(sys.argv[0])[0]
+        app_dir = os.path.dirname(os.path.abspath(__file__))
 
         # Load and show our user interface
 
@@ -110,12 +109,10 @@ class WeatherWindow(QMainWindow):
                         
 if __name__ == '__main__':
 
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)         
 
     application = QApplication(sys.argv)
 
     window = WeatherWindow()
     window.show()
 
-    sys.exit(application.exec_())
+    sys.exit(application.exec())

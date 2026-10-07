@@ -1,33 +1,34 @@
-# -*- coding: utf-8 -*-
+"""
+Deriving our own window class from QWidget.
+"""
 
 import sys
 
 from qtpy.QtWidgets import QApplication, QWidget
-from qtpy.QtCore import *
+
 
 class MyWindow(QWidget):
+    """Main window class"""
+
     def __init__(self):
         """MyWindow constructor"""
-
         super().__init__()
 
-        # Skapa gränssnittskontroller
+        # Set window properties
 
         self.setGeometry(300, 300, 600, 600)
         self.setWindowTitle("MyWindow")
 
-        # Visa fönster
 
-        self.show()
-
-if __name__ == "__main__": 
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
-    # Skapa vårt MyWindow objekt
+    # Create and show our MyWindow object
 
     window = MyWindow()
+    window.show()
 
-    # Starta händelseloop
+    # Enter event loop
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

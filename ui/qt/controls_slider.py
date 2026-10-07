@@ -1,61 +1,60 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+QSlider example with a vertical and a horizontal slider.
 """
 
 import sys
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QWidget, QSlider, QHBoxLayout
+from qtpy.QtCore import Qt
+
 
 class MyWindow(QWidget):
-    """Huvudklass för vårt fönster"""
+    """Main window class"""
 
     def __init__(self):
-        """Klass konstructor"""
+        """Class constructor"""
         super().__init__()
 
-        # Konfigurera fönster
+        # Configure window
 
         self.resize(300, 200)
         self.move(50, 50)
         self.setWindowTitle("Slider Example")
 
-        # Skapa kontroller
+        # Create controls
 
-        self.vert_slider = QSlider(Qt.Vertical, self)
-        self.vert_slider.move(20, 20)
-        self.vert_slider.resize(30, 150)
-        self.vert_slider.setMaximum(100)
-        self.vert_slider.setMinimum(0)
+        self.vert_slider = QSlider(Qt.Orientation.Vertical)
+        self.vert_slider.setRange(0, 100)
         self.vert_slider.setValue(50)
 
-        self.horiz_slider = QSlider(Qt.Horizontal, self)
-        self.horiz_slider.move(60, 20)
-        self.horiz_slider.resize(150, 30)
-        self.horiz_slider.setMaximum(100)
-        self.horiz_slider.setMinimum(0)
+        self.horiz_slider = QSlider(Qt.Orientation.Horizontal)
+        self.horiz_slider.setRange(0, 100)
         self.horiz_slider.setValue(50)
+        self.horiz_slider.setTickPosition(QSlider.TickPosition.TicksBelow)
+        self.horiz_slider.setTickInterval(10)
 
-        # Koppla signaler
+        # Connect signals
 
         self.vert_slider.valueChanged.connect(self.on_value_changed)
         self.horiz_slider.valueChanged.connect(self.on_value_changed)
 
+        # Layout
+
+        layout = QHBoxLayout(self)
+        layout.addWidget(self.vert_slider)
+        layout.addWidget(self.horiz_slider, 0, Qt.AlignmentFlag.AlignTop)
+
     def on_value_changed(self, value):
-        """Hantera signalen valueChanged"""
-        
+        """Handle the valueChanged signal"""
         print("vertical value   =", self.vert_slider.value())
         print("horizontal value =", self.horiz_slider.value())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    
+
     window = MyWindow()
     window.show()
-    
-    sys.exit(app.exec_())
+
+    sys.exit(app.exec())

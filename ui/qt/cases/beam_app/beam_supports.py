@@ -35,7 +35,7 @@ class BeamSupportWindow(QWidget):
 
         # Läs in gränssnittsdefinition
 
-        uic.loadUi("beam_supports.ui", self)
+        uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "beam_supports.ui"), self)
 
         # Konfigurera fönstrets egenskaper. I detta
         # fall en dialogruta.

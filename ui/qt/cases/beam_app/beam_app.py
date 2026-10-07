@@ -7,18 +7,15 @@ Created on Thu Apr  5 23:42:08 2018
 
 import os, sys
 
-os.environ['QT_API'] = 'pyqt6'
-
 
 from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog, QStyle
 from qtpy.QtGui import QIcon
-from qtpy.QtCore import *
 from qtpy import uic
 
 # Matplotlib
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
 
 import beam_model as bm
@@ -26,6 +23,8 @@ import beam_view as bv
 import beam_segments as bs
 import beam_supports as bspt
 import beam_res 
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 class BeamWindow(QMainWindow):
     """Fönsterklass för balkprogrammet"""
@@ -37,7 +36,7 @@ class BeamWindow(QMainWindow):
 
         # Läs in gränssnitt från fil
 
-        uic.loadUi("beam_app.ui", self)
+        uic.loadUi(os.path.join(HERE, "beam_app.ui"), self)
 
         # Klassattribut
 
@@ -166,4 +165,4 @@ if __name__ == '__main__':
     window = BeamWindow()
     window.show()
 
-    sys.exit(application.exec_())
+    sys.exit(application.exec())

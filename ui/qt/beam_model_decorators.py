@@ -1,34 +1,36 @@
-# -*- coding: utf-8 -*-
 """
-Fritt upplagd balk
+Simply supported beam with a point load P at distance a from the left support.
+
+Properties are implemented with the @property decorator. Compare with
+beam_model.py which uses the property() function.
 
 @author: Jonas Lindemann
 """
 
 
 class BeamSimplySupported:
-    """Klass för att beräkna fritt upplagd balk"""
-    def __init__(self):
-        """BeamSimplySupported konstruktor"""
+    """Computes deflection and section forces for a simply supported beam"""
 
-        # Initiera standardvärden
+    def __init__(self):
+        """BeamSimplySupported constructor"""
+
+        # Default values
 
         self.__a = 1.0
         self.__b = 2.0
-        self.__L = self.a + self.b
-        self.__P = 1000
+        self.__P = 1000.0
         self.__E = 2.1e9
-        self.__I = 0.1*0.1**4/12.0
+        self.__I = 0.1 * 0.1**3 / 12.0
 
     def v(self, x: float) -> float:
-        """Beräkna deformationen vid x"""
+        """Deflection at x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
-        E = self.__E
-        I = self.__I
+        a = self.a
+        b = self.b
+        L = self.L
+        P = self.P
+        E = self.E
+        I = self.I
 
         if x < a:
             return (P*b*L/(6*E*I))*((1-b**2/L**2)*x - x**3/L**2)
@@ -36,12 +38,12 @@ class BeamSimplySupported:
             return (P*a/(6*E*I))*(-a**2+(2*L+a**2/L)*x - 3*x**2+x**3/L)
 
     def V(self, x: float) -> float:
-        """Tvärkraften vid x"""
+        """Shear force at x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
+        a = self.a
+        b = self.b
+        L = self.L
+        P = self.P
 
         if x < a:
             return P*b/L
@@ -49,36 +51,39 @@ class BeamSimplySupported:
             return -P*a/L
 
     def M(self, x: float) -> float:
-        """Moment vid x"""
+        """Bending moment at x"""
 
-        a = self.__a
-        b = self.__b
-        L = self.__L
-        P = self.__P
+        a = self.a
+        b = self.b
+        L = self.L
+        P = self.P
 
         if x < a:
             return -P*b*x/L
         else:
             return -P*a*(L-x)/L
 
-    def to_float(self, new_value: any, old_value: float) -> float:
-        """Hantera tilldelning av egenskaper på ett säkert sätt"""
+    def x_values(self, n: int = 30) -> list[float]:
+        """Return n+1 evenly spaced positions from 0 to L"""
+        return [self.L * i / n for i in range(n + 1)]
+
+    @staticmethod
+    def to_float(new_value, old_value: float) -> float:
+        """Convert new_value to float, keep old_value if conversion fails"""
 
         try:
-            v = float(new_value)
-        except ValueError:
+            return float(new_value)
+        except (TypeError, ValueError):
             return old_value
 
-        return v
-
-    # --- Get/Set metoder
+    # --- Properties
 
     @property
     def a(self) -> float:
         return self.__a
 
     @a.setter
-    def a(self, v: any) -> None:
+    def a(self, v) -> None:
         self.__a = self.to_float(v, self.__a)
 
     @property
@@ -86,27 +91,28 @@ class BeamSimplySupported:
         return self.__b
 
     @b.setter
-    def b(self, v: any) -> None:
+    def b(self, v) -> None:
         self.__b = self.to_float(v, self.__b)
+
+    @property
+    def L(self) -> float:
+        """Beam length. Always computed from a and b."""
+        return self.__a + self.__b
 
     @property
     def P(self) -> float:
         return self.__P
 
     @P.setter
-    def P(self, v: any) -> None:
+    def P(self, v) -> None:
         self.__P = self.to_float(v, self.__P)
-
-    @property
-    def L(self) -> float:
-        return self.__a + self.__b
 
     @property
     def E(self) -> float:
         return self.__E
 
     @E.setter
-    def E(self, v: any) -> None:
+    def E(self, v) -> None:
         self.__E = self.to_float(v, self.__E)
 
     @property
@@ -114,28 +120,19 @@ class BeamSimplySupported:
         return self.__I
 
     @I.setter
-    def I(self, v: any) -> None:
+    def I(self, v) -> None:
         self.__I = self.to_float(v, self.__I)
 
-    # Egenskaper
 
 if __name__ == "__main__":
 
-    # Skapa en instans av modellklassen
+    # Create an instance of the model class
 
     beam = BeamSimplySupported()
 
-    # Initiera loopvariabler
+    # Print table header and section values along the beam
 
-    x = 0.0
-    dx = 0.1
+    print(f"{'x (m)':>10}  {'v (m)':>10}  {'V (N)':>10}  {'M (Nm)':>10}")
 
-    # Skriv ut tabellhuvud
-
-    print('{:>10}  {:>10}  {:>10}  {:>10}'.format("x (m)", "v (m)", "V (N)", "M (Nm)"))
-
-    # Loopa över x och skriv ut snittkrafter
-
-    while x < beam.L + dx:
-        print('{:10.5}, {:10.5}, {:10.5}, {:10.5}'.format(x, beam.v(x), beam.V(x), beam.M(x)))
-        x += dx
+    for x in beam.x_values():
+        print(f"{x:10.5g}  {beam.v(x):10.5g}  {beam.V(x):10.5g}  {beam.M(x):10.5g}")

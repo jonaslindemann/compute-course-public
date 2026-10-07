@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
+"""
+The smallest possible Qt application: an empty window and the event loop.
+"""
 
-import sys, os
+import sys
 
 from qtpy.QtWidgets import QApplication, QWidget
-from qtpy.QtCore import Qt
 
 if __name__ == "__main__":
 
@@ -12,4 +13,4 @@ if __name__ == "__main__":
     widget = QWidget()
     widget.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

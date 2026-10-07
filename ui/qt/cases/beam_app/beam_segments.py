@@ -6,7 +6,7 @@ Modul för klassen BeamSegmentsWindow
 """
 
 from qtpy.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget
-from qtpy.QtCore import *
+from qtpy.QtCore import Qt
 from qtpy import uic
 
 class BeamSegmentsWindow(QWidget):
@@ -33,7 +33,7 @@ class BeamSegmentsWindow(QWidget):
 
         # Läs in gränssnittsdefinition
 
-        uic.loadUi("beam_segments.ui", self)
+        uic.loadUi(os.path.join(os.path.dirname(os.path.abspath(__file__)), "beam_segments.ui"), self)
 
         # Konfigurera fönstrets egenskaper. I detta
         # fall en dialogruta.

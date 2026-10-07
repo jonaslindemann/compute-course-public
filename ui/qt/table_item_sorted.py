@@ -1,28 +1,22 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Sun Nov 26 17:10:06 2017
-
-@author: lindemann
+Sorting an item based QTableWidget. A custom QTableWidgetItem compares
+numbers numerically instead of as text.
 """
 
 import sys
+from numbers import Number
+from pathlib import Path
 
-from qtpy.QtWidgets import (
-    QTableWidgetItem,
-    QTableWidget,
-    QWidget,
-    QVBoxLayout,
-    QApplication,
-)
-from qtpy.QtCore import Qt
-
-import numpy as np
 import pandas as pd
 
+from qtpy.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem
+from qtpy.QtCore import Qt
 
-class CustomQTableWidgetItem(QTableWidgetItem):
-    """Custom QTableWidgetItem class"""
+HERE = Path(__file__).resolve().parent
+
+
+class NumericTableWidgetItem(QTableWidgetItem):
+    """Table item that sorts numeric values numerically"""
 
     def __init__(self, value):
         """Class constructor"""
@@ -30,16 +24,14 @@ class CustomQTableWidgetItem(QTableWidgetItem):
         self.value = value
 
     def __lt__(self, other):
-        """Override less than operator"""
-        if isinstance(self.value, (int, float, np.integer, np.floating)) and isinstance(
-            other.value, (int, float, np.integer, np.floating)
-        ):
-            return float(self.value) < float(other.value)
+        """Less than operator used by the table when sorting"""
+        if isinstance(self.value, Number) and isinstance(other.value, Number):
+            return self.value < other.value
         return super().__lt__(other)
 
 
 class ItemTableWindow(QWidget):
-    """Main window class for the Flow application"""
+    """Main window class"""
 
     def __init__(self):
         """Class constructor"""
@@ -47,74 +39,52 @@ class ItemTableWindow(QWidget):
 
         # Load CSV data
 
-        self.df = pd.read_csv("Cost_of_Living_Index_by_Country_2024.csv")
+        self.df = pd.read_csv(HERE / "Cost_of_Living_Index_by_Country_2024.csv")
 
         # Create table
 
-        self.item_table = QTableWidget(5, 3, self)
+        self.item_table = QTableWidget()
         self.item_table.verticalHeader().setVisible(False)
 
-        # Set layout
+        # Layout
 
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(self.item_table)
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.item_table)
 
         # Set window title and size
 
-        self.setWindowTitle("Item based table")
+        self.setWindowTitle("Sorted item based table")
         self.resize(800, 800)
 
-        # Update controls
+        # Fill table, then enable sorting. Sorting must be disabled while
+        # filling, otherwise rows move around as items are inserted.
 
         self.update_controls()
-        self.enable_sorting()
-
-        # Show table
-
-        self.item_table.show()
+        self.item_table.setSortingEnabled(True)
+        self.item_table.sortByColumn(0, Qt.SortOrder.AscendingOrder)
 
     def update_controls(self):
-        """Update table control"""
+        """Fill the table from the DataFrame"""
 
-        # Clear table
-
+        self.item_table.setSortingEnabled(False)
         self.item_table.clear()
-
-        # Set number of rows and columns
-
-        self.item_table.setColumnCount(len(self.df.columns))
         self.item_table.setRowCount(len(self.df.index))
-
-        # Set headers
-
-        self.item_table.setHorizontalHeaderLabels(self.df.columns)
-
-        # Populate table
+        self.item_table.setColumnCount(len(self.df.columns))
+        self.item_table.setHorizontalHeaderLabels([str(c) for c in self.df.columns])
 
         for row in range(len(self.df.index)):
-            for col, _ in enumerate(self.df.columns):
+            for col in range(len(self.df.columns)):
                 value = self.df.iloc[row, col]
-                item = CustomQTableWidgetItem(value)
-                self.item_table.setItem(row, col, item)
-
-        # Resize table
+                self.item_table.setItem(row, col, NumericTableWidgetItem(value))
 
         self.item_table.resizeColumnsToContents()
-        self.item_table.resizeRowsToContents()
-
-    def enable_sorting(self):
-        """Enable sorting"""
-        self.item_table.setSortingEnabled(True)
 
 
 if __name__ == "__main__":
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
     app = QApplication(sys.argv)
 
     window = ItemTableWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

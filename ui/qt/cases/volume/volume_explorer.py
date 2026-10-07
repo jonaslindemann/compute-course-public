@@ -168,13 +168,7 @@ class VolumeExplorerWindow(QMainWindow):
         self.plane_actors = [None, None]
         self.volume_actor = None
 
-        self.setup_ui()
-        self.setup_menu_and_toolbar()
-        self.rebuild_param_controls()
-        self.update_volume(reset_camera=True)
-
-    def setup_ui(self):
-        """Create the 3D view and the docked control panel"""
+        # Create the 3D view and the docked control panel
 
         # 3D view
 
@@ -262,8 +256,7 @@ class VolumeExplorerWindow(QMainWindow):
 
         self.status_bar = self.statusBar()
 
-    def setup_menu_and_toolbar(self):
-        """Create menu bar and toolbar actions"""
+        # Create menu bar and toolbar actions
 
         self.screenshot_action = QAction(icon("icons8-save.png"), "Save Screenshot...", self)
         self.screenshot_action.setShortcut("Ctrl+S")
@@ -320,6 +313,9 @@ class VolumeExplorerWindow(QMainWindow):
         toolbar.addAction(self.exit_action)
 
     # --- Parameter controls ------------------------------------------------
+
+        self.rebuild_param_controls()
+        self.update_volume(reset_camera=True)
 
     def rebuild_param_controls(self):
         """Rebuild the sliders for the currently selected function's parameters"""
@@ -492,4 +488,4 @@ if __name__ == "__main__":
     window = VolumeExplorerWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -98,13 +98,7 @@ class SurfaceExplorerWindow(QMainWindow):
         self.mesh = None
         self.actor = None
 
-        self.setup_ui()
-        self.setup_menu_and_toolbar()
-        self.rebuild_param_controls()
-        self.update_surface(reset_camera=True)
-
-    def setup_ui(self):
-        """Create the 3D view and the docked control panel"""
+        # Create the 3D view and the docked control panel
 
         # 3D view
 
@@ -177,8 +171,7 @@ class SurfaceExplorerWindow(QMainWindow):
 
         self.status_bar = self.statusBar()
 
-    def setup_menu_and_toolbar(self):
-        """Create menu bar and toolbar actions"""
+        # Create menu bar and toolbar actions
 
         self.screenshot_action = QAction(icon("icons8-save.png"), "Save Screenshot...", self)
         self.screenshot_action.setShortcut("Ctrl+S")
@@ -233,6 +226,9 @@ class SurfaceExplorerWindow(QMainWindow):
         toolbar.addAction(self.reset_camera_action)
         toolbar.addSeparator()
         toolbar.addAction(self.exit_action)
+
+        self.rebuild_param_controls()
+        self.update_surface(reset_camera=True)
 
     def rebuild_param_controls(self):
         """Rebuild the sliders for the currently selected function's parameters"""
@@ -366,4 +362,4 @@ if __name__ == "__main__":
     window = SurfaceExplorerWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

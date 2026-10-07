@@ -102,17 +102,7 @@ class ParticleExplorerWindow(QMainWindow):
         self.playing = True
         self.elapsed_time = 0.0
 
-        self.setup_ui()
-        self.setup_menu_and_toolbar()
-        self.rebuild_scene(reset_camera=True)
-
-        self.timer = QTimer(self)
-        self.timer.setInterval(int(DT * 1000))
-        self.timer.timeout.connect(self.on_timer)
-        self.timer.start()
-
-    def setup_ui(self):
-        """Create the 3D view and the docked control panel"""
+        # Create the 3D view and the docked control panel
 
         # 3D view
 
@@ -220,8 +210,7 @@ class ParticleExplorerWindow(QMainWindow):
 
         self.status_bar = self.statusBar()
 
-    def setup_menu_and_toolbar(self):
-        """Create menu bar and toolbar actions"""
+        # Create menu bar and toolbar actions
 
         self.screenshot_action = QAction(icon("icons8-save.png"), "Save Screenshot...", self)
         self.screenshot_action.setShortcut("Ctrl+S")
@@ -281,6 +270,13 @@ class ParticleExplorerWindow(QMainWindow):
         toolbar.addAction(self.reset_camera_action)
         toolbar.addSeparator()
         toolbar.addAction(self.exit_action)
+
+        self.rebuild_scene(reset_camera=True)
+
+        self.timer = QTimer(self)
+        self.timer.setInterval(int(DT * 1000))
+        self.timer.timeout.connect(self.on_timer)
+        self.timer.start()
 
     def play_pause_action(self):
         action = QAction("Play/Pause", self)
@@ -453,4 +449,4 @@ if __name__ == "__main__":
     window = ParticleExplorerWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
