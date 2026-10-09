@@ -17,7 +17,7 @@ class DrawableBase:
         pass
 
     def draw(self):
-        sketch.stroke(self.stroke_color[0], self.stroke_color[1], self.stroke_color[2], self.stroke_alpha)
+        sketch.stroke(self.stroke_color[0], self.stroke_color[1],       self.stroke_color[2], self.stroke_alpha)
         sketch.fill(self.fill_color[0], self.fill_color[1], self.fill_color[2], self.fill_alpha)
         sketch.stroke_weight(self.stroke_width)
 
