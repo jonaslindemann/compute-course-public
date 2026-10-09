@@ -14,8 +14,7 @@ class Particle(Widget):
     def update(self, dt=1/60):
         """Update circle position"""
 
-        self.x += self.velocity.x * dt
-        self.y += self.velocity.y * dt
+        self.pos = Vector(self.pos) + self.velocity * dt
 
         # Bounce off walls
         if self.x < 0 or self.x + self.size[0] > 800:

@@ -27,25 +27,16 @@ class Point:
         self.__x = x
         self.__y = y
 
-    def move(self, dx, dy):
-        self.__x += dx
-        self.__y += dy
-
-    def copy_from(self, p):
-        self.__x = p.x
-        self.__y = p.y
-
     def __str__(self):
         return "Point("+str(self.__x)+", "+str(self.__y)+")"
 
-p0 = Point()
-p1 = Point()
+p0 = Point(0.0, 0.0)
+p1 = Point(1.0, 2.0)
 
-p0.move(10.0, 20.0)
-p0.move(-5.0, -5.0)
+p2 = p0
+p3 = p1
 
-print(p0.x, p0.y)
-
-p1.copy_from(p0)
-print(p1.x, p0.y)
-
+print(id(p0))
+print(id(p1))
+print(id(p2))
+print(id(p3))

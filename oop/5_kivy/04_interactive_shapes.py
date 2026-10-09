@@ -5,7 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.graphics import Color, Ellipse, Rectangle
 from kivy.clock import Clock
-from kivy.vector import Vector
+from kivy.vector import Vector  # Kivy's own Vector2, compare 1_basics/11_vector_dunder_methods.py
 import random
 import math
 

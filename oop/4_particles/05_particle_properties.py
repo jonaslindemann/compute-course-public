@@ -135,7 +135,7 @@ class BoxBoundary:
         self.__ymax = 600.0
 
     def is_inside(self, p):
-        return (p.x - p.r > self.__xmin) and (p.x + p.r < self.__xmax) and (p.y - p.r > self.__ymin) and (p.y + p.r < self.__ymin)
+        return (p.x - p.r > self.__xmin) and (p.x + p.r < self.__xmax) and (p.y - p.r > self.__ymin) and (p.y + p.r < self.__ymax)
 
     def check(self, p):
         if not self.is_inside(p):

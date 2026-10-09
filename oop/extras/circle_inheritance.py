@@ -1,6 +1,6 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 
-from class_example1 import *
+from point_class import *
 from math import *
 
 class Circle(Point):
@@ -10,7 +10,7 @@ class Circle(Point):
         
     def show(self):
         x, y = self.getPosition()
-        print "x =", self._x, ", y =", self._y, ", radius =", self._radius
+        print("x =", self._x, ", y =", self._y, ", radius =", self._radius)
         
     def setRadius(self, radius):
         self._radius = radius
@@ -26,5 +26,5 @@ if __name__ == "__main__":
     c1 = Circle(0.0, 0.0, 1.0)
     c1.setPosition(1.0, 2.0)
     c1.show()
-    print "area =", c1.getArea()
+    print("area =", c1.getArea())
 

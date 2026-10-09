@@ -5,7 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.graphics import Color, Ellipse, Rectangle, Triangle
 from kivy.clock import Clock
-from kivy.vector import Vector
+from kivy.vector import Vector  # Kivy's own Vector2, compare 1_basics/11_vector_dunder_methods.py
 import random
 import math
 
@@ -23,8 +23,7 @@ class Particle(Widget):
     def update(self, dt=1/60):
         """Update circle position"""
 
-        self.x += self.velocity.x * dt
-        self.y += self.velocity.y * dt
+        self.pos = Vector(self.pos) + self.velocity * dt
 
         # Bounce off walls
         if self.x < 0 or self.x + self.size[0] > 800:

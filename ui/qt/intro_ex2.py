@@ -12,6 +12,7 @@ class MyWindow(QWidget):
 
     def __init__(self):
         """MyWindow constructor"""
+        print("Initializing MyWindow")
         super().__init__()
 
         # Set window properties
