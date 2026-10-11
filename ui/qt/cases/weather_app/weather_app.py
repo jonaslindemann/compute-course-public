@@ -15,7 +15,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
+from matplotlib import dates as mpl_dates
 
 import numpy as np
 
@@ -40,7 +40,7 @@ class WeatherWindow(QMainWindow):
         
         self.smhi = smhi.SMHI()        
         
-        self.current_param = "t"
+        self.current_param = "air_temperature"
         
         # Create a figure and a canvas for drawing in
 
@@ -85,12 +85,12 @@ class WeatherWindow(QMainWindow):
         self.figure.clear()
         axes = self.figure.gca()
 
-        axes.plot_date(self.date_times, self.values, xdate=True, fmt="r-")
-        plt.title(self.current_param+" ("+self.params[self.current_param]+")")
+        axes.plot(self.date_times, self.values, "r-")
+        axes.set_title(self.current_param+" ("+self.params.get(self.current_param, "")+")")
 
-        myLocator = mticker.MultipleLocator(8)
-        axes.xaxis.set_major_locator(myLocator)
-        plt.gcf().autofmt_xdate()
+        axes.xaxis.set_major_formatter(mpl_dates.DateFormatter("%m-%d %H:%M"))
+        self.figure.autofmt_xdate()
+        self.figure.tight_layout()
 
         self.figure.canvas.draw()
         self.figure.canvas.flush_events()                
@@ -101,6 +101,8 @@ class WeatherWindow(QMainWindow):
         self.plot()
         
     def on_refresh(self):
+        self.update_model()
+        self.smhi.request_forecast()
         self.refresh()
         
     def on_text_changed(self, text):
