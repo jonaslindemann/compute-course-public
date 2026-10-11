@@ -17,7 +17,8 @@ X, Y = np.meshgrid(x, y)
 
 z = np.sin(0.5*X*Y)
 
-plt.contourf(X, Y, z, cmap=plt.cm.RdBu)
+plt.contourf(X, Y, z, cmap=plt.cm.hot)
 plt.colorbar()
+plt.contour(X, Y, z, colors='black', linewidths=1, levels=np.arange(-1, 1, 0.5), linestyles='solid')
 
 plt.show()

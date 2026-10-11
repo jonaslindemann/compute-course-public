@@ -110,9 +110,6 @@ class WeatherWindow(QMainWindow):
                         
 if __name__ == '__main__':
 
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)         
-
     application = QApplication(sys.argv)
 
     window = WeatherWindow()

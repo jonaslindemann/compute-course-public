@@ -75,7 +75,7 @@ if __name__ == '__main__':
     params = smhi.parameter_names()
     date_times, values = smhi.parameter_values("t")
 
-    # print(params)
+    #print(params)
     #print(date_times)
     #print(values)
 
