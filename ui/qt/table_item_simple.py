@@ -1,22 +1,22 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Sun Nov 26 17:10:06 2017
+Showing a pandas DataFrame in an item based QTableWidget.
 
-@author: lindemann
+Every cell becomes a QTableWidgetItem. Simple, but slow for large data.
+See table_view_model.py for the model/view alternative.
 """
 
 import sys
+from pathlib import Path
 
-from qtpy.QtWidgets import QTableWidgetItem, QTableWidget, QWidget, QVBoxLayout, QApplication
-from qtpy.QtCore import Qt
-
-import numpy as np
 import pandas as pd
+
+from qtpy.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem
+
+HERE = Path(__file__).resolve().parent
 
 
 class ItemTableWindow(QWidget):
-    """Main window class for the Flow application"""
+    """Main window class"""
 
     def __init__(self):
         """Class constructor"""
@@ -24,30 +24,27 @@ class ItemTableWindow(QWidget):
 
         # Load CSV data
 
-        self.df = pd.read_csv("Cost_of_Living_Index_by_Country_2024.csv")
+        self.df = pd.read_csv(HERE / "Cost_of_Living_Index_by_Country_2024.csv")
 
         # Create table
 
-        self.item_table = QTableWidget(5, 3, self)
+        self.item_table = QTableWidget()
         self.item_table.verticalHeader().setVisible(False)
 
-        # Set layout
+        # Layout
 
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(self.item_table)
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.item_table)
 
         # Set window title and size
 
         self.setWindowTitle("Item based table")
         self.resize(800, 800)
 
-        # Update controls
+        # Fill table. Done before connecting signals, so that filling the
+        # table does not trigger itemChanged for every cell.
 
         self.update_controls()
-
-        # Show table
-
-        self.item_table.show()
 
         # Connect signals
 
@@ -55,57 +52,39 @@ class ItemTableWindow(QWidget):
         self.item_table.itemSelectionChanged.connect(self.on_selection_changed)
         self.item_table.cellClicked.connect(self.on_cell_clicked)
 
-
-
     def update_controls(self):
-        """Update table control"""
-
-        # Clear table
+        """Fill the table from the DataFrame"""
 
         self.item_table.clear()
-
-        # Set number of rows and columns
-
-        self.item_table.setColumnCount(len(self.df.columns))
         self.item_table.setRowCount(len(self.df.index))
-        
-
-        # Set headers
-
-        self.item_table.setHorizontalHeaderLabels(self.df.columns)
-
-        # Populate table
+        self.item_table.setColumnCount(len(self.df.columns))
+        self.item_table.setHorizontalHeaderLabels([str(c) for c in self.df.columns])
 
         for row in range(len(self.df.index)):
-            for col, _ in enumerate(self.df.columns):
+            for col in range(len(self.df.columns)):
                 value = self.df.iloc[row, col]
-                item = QTableWidgetItem(str(value))
-                #item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                self.item_table.setItem(row, col, item)
-
-        # Resize table
+                self.item_table.setItem(row, col, QTableWidgetItem(str(value)))
 
         self.item_table.resizeColumnsToContents()
-        self.item_table.resizeRowsToContents()
 
     def on_item_changed(self, item):
-        print("Item changed: ", item.row(), item.column(), item.text())
+        """Called when a cell has been edited"""
+        print("Item changed:", item.row(), item.column(), item.text())
 
     def on_selection_changed(self):
-        print("Selection changed: ", self.item_table.selectedItems())
+        """Called when the selection changes"""
+        print("Selection changed:", [item.text() for item in self.item_table.selectedItems()])
 
     def on_cell_clicked(self, row, col):
-        print("Cell clicked: ", row, col)
+        """Called when a cell is clicked"""
+        print("Cell clicked:", row, col)
 
 
 if __name__ == "__main__":
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
     app = QApplication(sys.argv)
 
     window = ItemTableWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

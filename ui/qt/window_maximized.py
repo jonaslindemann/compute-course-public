@@ -1,37 +1,33 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+Opening a window maximised or in full screen mode.
 """
 
 import sys
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QMainWindow
+from qtpy.QtCore import Qt
+
 
 class MyWindow(QMainWindow):
-    """Main Window class for our application"""
+    """Main window class for our application"""
 
     def __init__(self):
         """Class constructor"""
         super().__init__()
-        
-        self.resize(200,100)
-        self.move(50,50)
-        self.setWindowTitle("MyWindow")
-        #self.setWindowState(Qt.WindowMaximized)
-        self.setWindowState(Qt.WindowFullScreen)
-        
 
-if __name__ == '__main__':
-    
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+        self.resize(200, 100)
+        self.move(50, 50)
+        self.setWindowTitle("MyWindow")
+
+        self.setWindowState(Qt.WindowState.WindowMaximized)
+        # self.setWindowState(Qt.WindowState.WindowFullScreen)  # Close with Alt+F4
+
+
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
-    
+
     window = MyWindow()
     window.show()
-    
-    sys.exit(app.exec_())
+
+    sys.exit(app.exec())

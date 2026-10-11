@@ -18,7 +18,7 @@ from qtpy import uic
 from beam_model import BeamModel
 from beam_results import BeamResultsWindow
 from beam_widget import BeamWidget
-from beam_utils import try_float, close_console
+from beam_utils import try_float, close_console, resource_path
 import beam_res
 
 
@@ -32,7 +32,8 @@ class BeamWindow(QMainWindow):
         super().__init__()
 
         # Läs in gränssnitt från fil
-        self.setup_ui()
+
+        uic.loadUi(resource_path("beam_app.ui"), self)
 
         # Klassattribut
 
@@ -97,12 +98,6 @@ class BeamWindow(QMainWindow):
         self.right_support_xyr_option.clicked.connect(self.on_editing_finished)
         self.right_support_xy_option.clicked.connect(self.on_editing_finished)
         self.right_support_y_option.clicked.connect(self.on_editing_finished)
-
-    def setup_ui(self) -> None:
-        """Läs in gränssnitt från fil"""
-
-        uic.loadUi("beam_app.ui", self)
-
 
     def new_model(self) -> None:
         """Skapa en ny modell"""
@@ -350,4 +345,4 @@ if __name__ == "__main__":
 
     close_console()
 
-    sys.exit(application.exec_())
+    sys.exit(application.exec())

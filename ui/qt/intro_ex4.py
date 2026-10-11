@@ -1,41 +1,49 @@
-# -*- coding: utf-8 -*-
+"""
+Connecting a signal to a method that reads the value of another control.
+"""
 
 import sys
 
-from qtpy.QtWidgets import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QMessageBox
+
 
 class MyWindow(QWidget):
+    """Main window class"""
+
     def __init__(self):
-        """MyWidget constructor"""
+        """MyWindow constructor"""
         super().__init__()
+
+        # Create controls
+
+        self.line_edit = QLineEdit(self)
+        self.line_edit.move(50, 20)
+        self.line_edit.setText("Text")
 
         self.button = QPushButton("Press me", self)
         self.button.setToolTip("I am a button. Please press me")
         self.button.resize(self.button.sizeHint())
-        self.button.move(50,50)
+        self.button.move(50, 50)
+
+        # Connect method to the clicked signal
 
         self.button.clicked.connect(self.on_button_clicked)
 
-        self.line_edit = QLineEdit(self)
-        self.line_edit.move(50,20)
-        self.line_edit.setText("Text")
+        # Set window properties
 
-        self.setGeometry(300, 300, 600, 600)
-        self.setWindowTitle("MyWidget")
-
-        self.show()
+        self.setGeometry(300, 300, 300, 150)
+        self.setWindowTitle("MyWindow")
 
     def on_button_clicked(self):
-        """Event method for button clicked"""
+        """Event method for the clicked signal"""
         QMessageBox.information(self, "Text", self.line_edit.text())
 
-if __name__ == "__main__":
 
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
     window = MyWindow()
-    sys.exit(app.exec_())
+    window.show()
+
+    sys.exit(app.exec())

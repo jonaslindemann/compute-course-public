@@ -1,134 +1,120 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Apr 11 09:44:29 2016
-
-@author: lindemann
+Menus and toolbars sharing actions with icons and shortcuts.
 """
 
 import sys
+from pathlib import Path
 
-from qtpy.QtWidgets import *
-from qtpy.QtGui import *
-from qtpy.QtCore import *
+from qtpy.QtWidgets import QApplication, QMainWindow
+from qtpy.QtGui import QAction, QIcon, QKeySequence
+
+HERE = Path(__file__).resolve().parent
+
+
+def icon(name):
+    """Load an icon from the folder of this script"""
+    return QIcon(str(HERE / name))
 
 
 class MyWindow(QMainWindow):
-    """Huvudklass för vårt fönster"""
+    """Main window class"""
 
     def __init__(self):
-        """Klassens konstruktor"""
+        """Class constructor"""
         super().__init__()
 
         self.resize(400, 200)
         self.move(50, 50)
         self.setWindowTitle("Toolbar Example")
 
-        # Definiera actions
+        # Define actions
 
-        self.new_file_action = QAction("Ny", self)
-        self.new_file_action.setIcon(QIcon("icons8-new-document.png"))
-        self.new_file_action.setShortcut("Ctrl+N")
+        self.new_file_action = QAction(icon("icons8-new-document.png"), "&New", self)
+        self.new_file_action.setShortcut(QKeySequence.StandardKey.New)
         self.new_file_action.triggered.connect(self.on_new_file_action)
 
-        self.open_file_action = QAction("Öppna...", self)
-        self.open_file_action.setIcon(QIcon("icons8-open.png"))
-        self.open_file_action.setShortcut("Ctrl+O")
+        self.open_file_action = QAction(icon("icons8-open.png"), "&Open...", self)
+        self.open_file_action.setShortcut(QKeySequence.StandardKey.Open)
         self.open_file_action.triggered.connect(self.on_open_file_action)
 
-        self.save_file_action = QAction("Spara", self)
-        self.save_file_action.setIcon(QIcon("icons8-save.png"))
-        self.save_file_action.setShortcut("Ctrl+S")
+        self.save_file_action = QAction(icon("icons8-save.png"), "&Save", self)
+        self.save_file_action.setShortcut(QKeySequence.StandardKey.Save)
         self.save_file_action.triggered.connect(self.on_save_file_action)
 
-        self.exit_action = QAction("Avsluta", self)
-        self.exit_action.setIcon(QIcon("icons8-exit.png"))
-        self.exit_action.setShortcut("Alt+F4")
-        self.exit_action.triggered.connect(self.on_exit)
+        self.exit_action = QAction(icon("icons8-exit.png"), "E&xit", self)
+        self.exit_action.setShortcut(QKeySequence.StandardKey.Quit)
+        self.exit_action.triggered.connect(self.close)
 
-        self.cut_action = QAction("Klipp ut", self)
-        self.cut_action.setIcon(QIcon("icons8-cut.png"))
-        self.cut_action.setShortcut("Ctrl+X")
+        self.cut_action = QAction(icon("icons8-cut.png"), "Cu&t", self)
+        self.cut_action.setShortcut(QKeySequence.StandardKey.Cut)
         self.cut_action.triggered.connect(self.on_cut_action)
 
-        self.copy_action = QAction("Klipp ut", self)
-        self.copy_action.setIcon(QIcon("icons8-copy.png"))
-        self.copy_action.setShortcut("Ctrl+C")
+        self.copy_action = QAction(icon("icons8-copy.png"), "&Copy", self)
+        self.copy_action.setShortcut(QKeySequence.StandardKey.Copy)
         self.copy_action.triggered.connect(self.on_copy_action)
 
-        self.past_action = QAction("Klista in", self)
-        self.past_action.setIcon(QIcon("icons8-paste.png"))
-        self.past_action.setShortcut("Ctrl+V")
-        self.past_action.triggered.connect(self.on_paste_action)
+        self.paste_action = QAction(icon("icons8-paste.png"), "&Paste", self)
+        self.paste_action.setShortcut(QKeySequence.StandardKey.Paste)
+        self.paste_action.triggered.connect(self.on_paste_action)
 
-        # Koppla menyer till actions
+        # Connect menus to actions
 
-        self.file_menu = self.menuBar().addMenu("Arkiv")
+        self.file_menu = self.menuBar().addMenu("&File")
         self.file_menu.addAction(self.new_file_action)
         self.file_menu.addAction(self.open_file_action)
         self.file_menu.addAction(self.save_file_action)
         self.file_menu.addSeparator()
         self.file_menu.addAction(self.exit_action)
 
-        self.edit_menu = self.menuBar().addMenu("Redigera")
+        self.edit_menu = self.menuBar().addMenu("&Edit")
         self.edit_menu.addAction(self.cut_action)
         self.edit_menu.addAction(self.copy_action)
-        self.edit_menu.addAction(self.past_action)
+        self.edit_menu.addAction(self.paste_action)
 
-        # Skapa verktygsfält och lägg till actions
+        # Create toolbars and add the same actions
 
-        self.file_toolbar = self.addToolBar("Arkiv")
+        self.file_toolbar = self.addToolBar("File")
         self.file_toolbar.addAction(self.new_file_action)
         self.file_toolbar.addAction(self.open_file_action)
         self.file_toolbar.addAction(self.save_file_action)
         self.file_toolbar.addSeparator()
         self.file_toolbar.addAction(self.exit_action)
 
-        self.edit_toolbar = self.addToolBar("Redigera")
+        self.edit_toolbar = self.addToolBar("Edit")
         self.edit_toolbar.addAction(self.cut_action)
         self.edit_toolbar.addAction(self.copy_action)
-        self.edit_toolbar.addAction(self.past_action)
-
-        # Visa fönster
-
-        self.show()
+        self.edit_toolbar.addAction(self.paste_action)
 
     def on_new_file_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Ny fil!")
+        """Event method for menu event"""
+        print("New file")
 
     def on_open_file_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Öppna fil")
+        """Event method for menu event"""
+        print("Open file")
 
     def on_save_file_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Spara fil")
-
-    def on_exit(self):
-        """Händelsemetod för menyhändelse"""
-        self.close()
+        """Event method for menu event"""
+        print("Save file")
 
     def on_cut_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Klipp ut")
+        """Event method for menu event"""
+        print("Cut")
 
     def on_copy_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Kopiera")
+        """Event method for menu event"""
+        print("Copy")
 
     def on_paste_action(self):
-        """Händelsemetod för menyhändelse"""
-        print("Klistra in")
+        """Event method for menu event"""
+        print("Paste")
 
 
-if __name__ == '__main__':
-
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True) 
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)        
+if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
     window = MyWindow()
     window.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
