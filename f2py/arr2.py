@@ -10,9 +10,9 @@ print(matrix_multiply2.__doc__)
 print("-------------------------------------")
 print()
 
-A = ones((6,6), 'f', order='F') * 10.0
-B = ones((6,6), 'f', order='F') * 20.0
-C = zeros((6,6), 'f', order='F')
+A = ones((6,6), 'd', order='F') * 10.0
+B = ones((6,6), 'd', order='F') * 20.0
+C = zeros((6,6), 'd', order='F')
 
 print("id of C before multiply =",id(C))
 

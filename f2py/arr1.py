@@ -14,9 +14,9 @@ print(matrix_multiply.__doc__)
 print("-------------------------------------")
 print()
 
-A = np.ones((6,6), 'f', order='F') * 10.0
-B = np.ones((6,6), 'f', order='F') * 20.0
-C = np.zeros((6,6), 'f', order='F')
+A = np.ones((6,6), 'd', order='F') * 10.0
+B = np.ones((6,6), 'd', order='F') * 20.0
+C = np.zeros((6,6), 'd', order='F')
 
 print("id of C before multiply =",id(C))
 

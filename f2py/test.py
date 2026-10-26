@@ -8,9 +8,9 @@ from fortmod import *
 
 print(matrix.matrix_multiply2.__doc__)
 
-A = ones((10,10), 'float32', order='F') * 10.0
-B = ones((10,10), 'float32', order='F') * 20.0
-C = zeros((10,10), 'float32', order='F')
+A = ones((10,10), 'float64', order='F') * 10.0
+B = ones((10,10), 'float64', order='F') * 20.0
+C = zeros((10,10), 'float64', order='F')
 
 print("id of C before multiply =",id(C))
 
