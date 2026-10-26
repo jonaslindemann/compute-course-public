@@ -23,7 +23,7 @@ class BeamSimplySupported:
         self.__L = self.a + self.b
         self.__P = 1000
         self.__E = 2.1e9
-        self.__I = 0.1*0.1**4/12.0
+        self.__I = 0.1*0.1**3/12.0
 
         self.update_params()
 

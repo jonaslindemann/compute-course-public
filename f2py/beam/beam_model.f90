@@ -20,7 +20,7 @@ subroutine init()
     L = a + b
     P = 1000
     E = 2.1e9
-    I = 0.1*0.1**4/12.0
+    I = 0.1*0.1**3/12.0
 
 end subroutine
 

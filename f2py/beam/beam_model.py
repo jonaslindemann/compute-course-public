@@ -18,7 +18,7 @@ class BeamSimplySupported:
         self._L = self.a + self.b
         self._P = 1000
         self._E = 2.1e9
-        self._I = 0.1*0.1**4/12.0
+        self._I = 0.1*0.1**3/12.0
 
     def v(self, x):
         """Beräkna deformationen vid x"""

@@ -9,7 +9,7 @@ module beam_model
     real(c_double) :: b = 2.0_c_double      ! Distance from load to right support
     real(c_double) :: P = 1000.0_c_double   ! Point load
     real(c_double) :: E = 2.1e9_c_double    ! Modulus of elasticity
-    real(c_double) :: I = 0.1_c_double*0.1_c_double**4/12.0_c_double ! Moment of inertia
+    real(c_double) :: I = 0.1_c_double*0.1_c_double**3/12.0_c_double ! Moment of inertia
 
 contains
 
